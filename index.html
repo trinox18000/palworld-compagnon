@@ -3,28 +3,27 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Palworld - Compagnon de Camp</title>
+  <title>Palworld - Guide des Pals et Ressources</title>
 
   <!-- ================================================================= -->
   <!-- 🎨 SECTION 1 : DESIGN & STYLE (CSS)                               -->
-  <!-- C'est ici qu'on change les couleurs, tailles et la mise en page.  -->
   <!-- ================================================================= -->
   <style>
     * {
       box-sizing: border-box;
     }
 
-    /* --- VARIABLES DE COULEURS DU SITE (MODE SOMBRE) --- */
     :root {
-      --bg-color: #1a1e24;       /* Couleur du fond de page */
-      --card-bg: #252b33;       /* Couleur de fond des cartes et blocs */
-      --accent: #4f46e5;        /* Couleur violette/bleue (badges et boutons) */
-      --accent-hover: #4338ca;  /* Couleur au survol */
-      --text: #f3f4f6;          /* Couleur du texte principal */
-      --text-muted: #9ca3af;    /* Couleur du texte secondaire */
-      --border: #374151;        /* Couleur des bordures */
-      --title-color: #60a5fa;   /* Couleur du titre principal */
-      --gold: #eab308;          /* Couleur dorée pour les Pals Lucky */
+      --bg-color: #1a1e24;       
+      --card-bg: #252b33;       
+      --accent: #4f46e5;        
+      --accent-hover: #4338ca;  
+      --text: #f3f4f6;          
+      --text-muted: #9ca3af;    
+      --border: #374151;        
+      --title-color: #60a5fa;   
+      --gold: #eab308;          
+      --alpha-color: #ef4444;   
     }
 
     body {
@@ -38,7 +37,7 @@
     }
 
     .container {
-      max-width: 700px;
+      max-width: 900px;
       width: 100%;
     }
 
@@ -49,19 +48,48 @@
       font-size: 1.8rem;
     }
 
-    /* --- BLOC DU MENU DÉROULANT --- */
     .controls {
       background-color: var(--card-bg);
       padding: 20px;
-      border-radius: 10px;
+      border-radius: 12px;
       border: 1px solid var(--border);
       margin-bottom: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+    }
+
+    .menu-step {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .hidden {
+      display: none !important;
+    }
+
+    .btn-retour {
+      background-color: #374151;
+      color: var(--text);
+      border: 1px solid var(--border);
+      padding: 8px 14px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: bold;
+      align-self: flex-start;
+      margin-bottom: 5px;
+      transition: background-color 0.2s;
+    }
+
+    .btn-retour:hover {
+      background-color: #4b5563;
     }
 
     label {
       font-weight: bold;
       display: block;
-      margin-bottom: 10px;
+      margin-bottom: 5px;
     }
 
     select {
@@ -79,48 +107,83 @@
       outline: 2px solid var(--accent);
     }
 
-    /* --- CARTES DES PALS --- */
+    /* Grille de sélection des ressources cliquables */
+    .resources-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+      gap: 12px;
+      margin-top: 5px;
+    }
+
+    .resource-card-select {
+      background-color: #1f2937;
+      border: 2px solid var(--border);
+      border-radius: 10px;
+      padding: 15px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 12px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .resource-card-select:hover {
+      border-color: var(--accent);
+      transform: translateY(-2px);
+    }
+
+    .resource-card-select img {
+      width: 100px;
+      height: 100px;
+      object-fit: contain;
+    }
+
+    .resource-card-select span {
+      font-size: 15px;
+      font-weight: bold;
+      text-align: center;
+    }
+
     .results {
       display: flex;
       flex-direction: column;
-      gap: 12px;
+      gap: 15px;
     }
 
-    /* Carte classique */
     .pal-card {
       background-color: var(--card-bg);
       border: 1px solid var(--border);
-      border-radius: 10px;
-      padding: 12px 18px;
+      border-radius: 12px;
+      padding: 20px;
       display: flex;
       align-items: center;
-      gap: 15px;
+      gap: 20px;
       transition: transform 0.15s ease, border-color 0.15s ease;
     }
 
     .pal-card:hover {
       transform: translateY(-2px);
+      border-color: var(--accent);
     }
 
-    /* ✨ Style spécifique pour la carte Lucky (contour doré) */
     .pal-card.lucky-card {
       border: 3px solid var(--gold);
       box-shadow: 0 0 10px rgba(234, 179, 8, 0.2);
     }
 
-    /* --- IMAGE / AVATAR DE REPLI EN COULEUR --- */
     .pal-img-container {
-      width: 100px;
-      height: 100px;
+      width: 130px;
+      height: 130px;
       flex-shrink: 0;
       display: flex;
       justify-content: center;
       align-items: center;
-      border-radius: 8px;
+      border-radius: 10px;
       overflow: hidden;
       border: 1px solid var(--border);
       font-weight: bold;
-      font-size: 20px;
+      font-size: 26px;
       color: #ffffff;
     }
 
@@ -135,34 +198,93 @@
     }
 
     .pal-name {
-      font-size: 18px;
+      font-size: 24px;
       font-weight: bold;
+      margin-bottom: 10px;
+      color: #ffffff;
     }
 
-    /* Nom doré si Lucky */
     .pal-name.lucky-text {
       color: var(--gold);
     }
 
     .pal-badge-desc {
-      font-size: 18px;
+      font-size: 16px;
       color: var(--text-muted);
       margin-top: 4px;
     }
-	
-	.mot-jaune {
-          color: #ffcc00;
-          font-weight: bold;
-        }
+
+    .mot-jaune {
+      color: #ffcc00;
+      font-weight: bold;
+    }
+
+    .drops-list {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin-top: 10px;
+    }
+
+    .drop-item {
+      background-color: #1f2937;
+      border: 1px solid var(--border);
+      padding: 14px 18px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      gap: 20px;
+    }
+
+    .drop-img {
+      width: 70px;
+      height: 70px;
+      object-fit: contain;
+      background-color: #111827;
+      border-radius: 10px;
+      padding: 7px;
+      border: 1px solid var(--border);
+      flex-shrink: 0;
+    }
+
+    .drop-details {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .drop-name {
+      color: #93c5fd;
+      font-weight: bold;
+      font-size: 19px;
+    }
+
+    .drop-stats {
+      font-size: 16px;
+      color: var(--text-muted);
+      display: flex;
+      gap: 15px;
+    }
+
+    .drop-qty {
+      color: #e5e7eb;
+      font-weight: 600;
+    }
+
+    .rate-rare {
+      color: var(--gold);
+      font-weight: bold;
+    }
 
     .pal-level {
       background-color: var(--accent);
       color: #ffffff;
-      padding: 6px 14px;
+      padding: 8px 16px;
       border-radius: 20px;
       font-weight: bold;
       font-size: 14px;
       white-space: nowrap;
+      align-self: flex-start;
     }
 
     .empty-state {
@@ -170,155 +292,573 @@
       color: var(--text-muted);
       margin-top: 30px;
       font-style: italic;
+      font-size: 16px;
     }
   </style>
 </head>
 <body>
 
   <!-- ================================================================= -->
-  <!-- 🧱 SECTION 2 : STRUCTURE VISIBLE (HTML)                            -->
-  <!-- C'est le squelette du site (Titre, Menu déroulant, Zone de résultat)-->
+  <!-- 🧱 SECTION 2 : STRUCTURE VISIBLE (HTML)                           -->
   <!-- ================================================================= -->
   <div class="container">
     
-    <!-- Titre du site -->
-    <h1>⛏️ Palworld - Compagnon de Camp</h1>
+    <h1>⚔️ Palworld - Guide des Pals et Ressources</h1>
 
-    <!-- Zone de sélection du métier -->
     <div class="controls">
-      <label for="work-select">Sélectionne une activité de travail :</label>
-      <select id="work-select" onchange="filtrerPals()">
-       <option value="">-- Choisir un métier --</option>
-        <option value="lumbering">Abattage (Lumbering)</option>
-        <option value="kindling">Allumage de feu (Kindling)</option>
-        <option value="watering">Arrosage (Watering)</option>
-		<option value="handiwork">Artisanat (Handiwork)</option>
-        <option value="gathering">Collecte (Gathering)</option>
-		<option value="farming">Exploitation (Farming)</option>
-		<option value="mining">Extraction (Mining)</option>
-        <option value="electricity">Génération d'énergie (Electricity)</option>
-        <option value="medicine">Pharmacie (Medicine)</option>
-        <option value="cooling">Réfrigération (Cooling)</option>
-        <option value="planting">Semence (Planting)</option>
-        <option value="transporting">Transport (Transporting)</option>
-      </select>
+
+      <!-- ÉTAPE 0 : Choix Principal -->
+      <div id="step-main" class="menu-step">
+        <label for="main-category">Choisis une section :</label>
+        <select id="main-category" onchange="changerCategoriePrincipale()">
+          <option value="">-- Choisir --</option>
+          <option value="metiers">🏕️ Pals pour le Camp (Métiers)</option>
+          <option value="ressources">📦 Ressources et Drops (Chasse)</option>
+        </select>
+      </div>
+
+      <!-- ÉTAPE 1A : Sous-menu Métiers -->
+      <div id="step-metiers" class="menu-step hidden">
+        <button class="btn-retour" onclick="retourEtapeMain()">⬅️ Retour</button>
+        <label for="work-select">Sélectionne un métier :</label>
+        <select id="work-select" onchange="filtrerPals()">
+          <option value="">-- Choisir un métier --</option>
+          <option value="lumbering">Abattage (Lumbering)</option>
+          <option value="kindling">Allumage de feu (Kindling)</option>
+          <option value="watering">Arrosage (Watering)</option>
+          <option value="handiwork">Artisanat (Handiwork)</option>
+          <option value="bonus-base">✨ Bonus / Effets de base</option>
+          <option value="gathering">Collecte (Gathering)</option>
+          <option value="farming">Exploitation (Farming)</option>
+          <option value="mining">Extraction (Mining)</option>
+          <option value="electricity">Génération d'énergie (Electricity)</option>
+          <option value="medicine">Pharmacie (Medicine)</option>
+          <option value="cooling">Réfrigération (Cooling)</option>
+          <option value="planting">Semence (Planting)</option>
+          <option value="transporting">Transport (Transporting)</option>
+        </select>
+      </div>
+
+      <!-- ÉTAPE 1B : Choix de la ressource -->
+      <div id="step-ressources" class="menu-step hidden">
+        <button class="btn-retour" onclick="retourEtapeMain()">⬅️ Retour</button>
+        <label>Choisis une ressource :</label>
+        <div class="resources-grid">
+          <div class="resource-card-select" onclick="selectionnerRessource('Wool')">
+            <img src="images/wool.png" alt="Laine">
+            <span>Laine</span>
+          </div>
+          <div class="resource-card-select" onclick="selectionnerRessource('Leather')">
+            <img src="images/leather.png" alt="Cuir">
+            <span>Cuir</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- ÉTAPE 2 : Choix du type de Pal (Normal ou Alpha) -->
+      <div id="step-type-pal" class="menu-step hidden">
+        <button class="btn-retour" onclick="retourEtapeRessources()">⬅️ Retour</button>
+        <label for="type-pal-select">Type de Pal :</label>
+        <select id="type-pal-select" onchange="filtrerPals()">
+          <option value="">-- Choisir le type --</option>
+          <option value="normal">🟢 Pal Normal Drops</option>
+          <option value="alpha">🔴 Pal Alpha Drops (Boss)</option>
+        </select>
+      </div>
+
     </div>
 
-    <!-- Zone où s'affichent dynamiquement les Pals -->
     <div id="results" class="results">
-      <div class="empty-state">Sélectionne une activité ci-dessus pour afficher les meilleurs Pals.</div>
+      <div class="empty-state">Sélectionne une option ci-dessus pour afficher les résultats.</div>
     </div>
 
   </div>
 
   <!-- ================================================================= -->
-  <!-- ⚡ SECTION 3 : LOGIQUE ET DONNÉES (JAVASCRIPT)                   -->
-  <!-- C'est ici qu'on stocke la liste des Pals et qu'on gère le tri.   -->
+  <!-- ⚡ SECTION 3 : LOGIQUE ET DONNÉES (JAVASCRIPT)                  -->
   <!-- ================================================================= -->
   <script>
+    let ressourceSelectionnee = "";
 
-    // -----------------------------------------------------------------
-    // 📁 3.A : LA BASE DE DONNÉES DES PALS
-    // Tu peux ajouter de nouveaux Pals ici en copiant une ligne !
-    // N'oublie pas la virgule entre chaque ligne, SAUF sur la dernière !
-    // -----------------------------------------------------------------
     const palsDatabase = [
-      { id: 1, name: "Lamball", imgUrl: "images/lamball.png", color: "#252b33", isLucky: false, description: "Peut être assigné à une Exploitation avec chance de produire de la <span class=\"mot-jaune\">Laine</span>.", work: { handiwork: 1, transporting: 1, farming: 1 } },
-	  { id: 2, name: "Cattiva", imgUrl: "images/cattiva.png", color: "#252b33", isLucky: false, work: { handiwork: 1, gathering: 1, mining: 1, transporting: 1} },
-	  { id: 3, name: "Chikipi", imgUrl: "images/chikipi.png", color: "#252b33", isLucky: false, description: "à affecter à une Exploitation pour une chance d'optenir des <span class=\"mot-jaune\">oeufs</span>.", work: { gathering: 1, farming: 1} },
-	  { id: 4, name: "Lifmunk", imgUrl: "images/lifmunk.png", color: "#252b33", isLucky: false, work: { planting: 1, handiwork: 1, gathering: 1, lumbering: 1,  medicine: 1} },
-	  { id: 5, name: "Fuack", imgUrl: "images/fuack.png", color: "#252b33", isLucky: false, work: { watering: 1, handiwork: 1, transporting: 1} },
-	  { id: "5B", name: "Fuack Ignis", imgUrl: "images/fuack-ignis.png", color: "#252b33", isLucky: false, work: { kindling: 2, watering: 2, handiwork: 1, transporting: 1} },
-	  { id: 6, name: "Vixy", imgUrl: "images/vixy.png", color: "#252b33", isLucky: false, work: { gathering: 1, farming: 1} },
-	  { id: 7, name: "Celaray", imgUrl: "images/celaray.png", color: "#252b33", isLucky: false, work: { watering: 1, transporting: 1} },
-	  { id: "7B", name: "Celaray Lux", imgUrl: "images/celaray-lux.png", color: "#252b33", isLucky: false, work: { watering: 1, electricity: 2, transporting: 1} },
-	  { id: 8, name: "Cremis", imgUrl: "images/cremis.png", color: "#252b33", isLucky: false, work: { gathering: 1, farming: 2} },
-	  { id: 9, name: "Croajiro", imgUrl: "images/croajiro.png", color: "#252b33", isLucky: false, work: { watering: 1, handiwork: 1, gathering: 1, transporting: 1} },
-	  { id: "9B", name: "Croajiro Noct", imgUrl: "images/croajiro-noct.png", color: "#252b33", isLucky: false, work: { watering: 1, handiwork: 2, gathering: 1, transporting: 1} },
-	  { id: 10, name: "Herbil", imgUrl: "images/herbil.png", color: "#252b33", isLucky: false, work: { planting: 1, gathering: 1, transporting: 1} },
-	  { id: 11, name: "Teafant", imgUrl: "images/teafant.png", color: "#252b33", isLucky: false, work: { watering: 1} },
-	  { id: 12, name: "Gumoss", imgUrl: "images/gumoss.png", color: "#252b33", isLucky: false, work: { planting: 1} },
-	  { id: 13, name: "Pupperai", imgUrl: "images/pupperai.png", color: "#252b33", isLucky: false, work: { gathering: 1, lumbering: 1, transporting: 1} },
-	  { id: 14, name: "Clovee", imgUrl: "images/clovee.png", color: "#252b33", isLucky: false, description: "Lorsque le Pal est affecté à une base, augmente d'un niveau (+1) l'aptitude au travail de <span class=\"mot-jaune\">collecte</span> de tous les autres Pals de la base. (Ne se cumule pas)", work: { planting: 1, gathering: 1} },
-	  
-	  
-	  { id: 100, name: "Anubis (Lucky ✨)", imgUrl: "images/anubis-lucky.png", color: "#252b33", isLucky: true, work: { handiwork: 6, mining: 6, transporting: 4 } },
-      { id: 100, name: "Anubis", imgUrl: "images/anubis.png", color: "#252b33", isLucky: false, work: { handiwork: 6, mining: 6, transporting: 4 } },
-      { id: 102, name: "Blazamut", imgUrl: "images/blazamut.png", color: "#252b33", isLucky: false, work: { kindling: 3, mining: 7 } },
-      { id: 101, name: "Astegon", imgUrl: "images/astegon.png", color: "#252b33", isLucky: false, work: { mining: 7, handiwork: 3 } },
-      { id: 64, name: "Digtoise", imgUrl: "images/digtoise.png", color: "#252b33", isLucky: false, work: { mining: 4 } },
-      { id: 121, name: "Jormuntide", imgUrl: "images/jormuntide.png", color: "#252b33", isLucky: false, work: { watering: 7 } },
-      { id: "121B", name: "Jormuntide Ignis", imgUrl: "images/jormuntide-ignis.png", color: "#252b33", isLucky: false, work: { kindling: 7 } },
-      { id: 186, name: "Lyleen", imgUrl: "images/lyleen.png", color: "#252b33", isLucky: false, work: { planting: 7, handiwork: 5, medicine: 5, gathering: 6 } },
-      { id: 134, name: "Wumpo", imgUrl: "images/wumpo.png", color: "#252b33", isLucky: false, work: { lumbering: 5, transporting: 6, cooling: 5 } },
-      { id: 187, name: "Orserk", imgUrl: "images/orserk.png", color: "#252b33", isLucky: false, work: { electricity: 8, handiwork: 4, transporting: 4 } }
-	  //{ id: 1, name: "", imgUrl: "images/.png", color: "#252b33", isLucky: false, work: { kindling: 1, watering: 1, planting: 1, electricity: 1, handiwork: 1, gathering: 1, lumbering: 1, mining: 1, medicine: 1, cooling: 1, transporting: 1, farming: 1} },//
+      { id: 1, name: "Lamball", imgUrl: "images/lamball.png", color: "#252b33", isLucky: false, description: "Peut être assigné à une Exploitation avec chance de produire de la <span class=\"mot-jaune\">Laine</span>.", 
+        work: { handiwork: 1, transporting: 1, farming: 1 }, 
+        normalDrops: [
+          { name: "Wool", img: "images/wool.png", qty: "x1-2", rate: "60%" },
+          { name: "Leather", img: "images/leather.png", qty: "x1", rate: "100%" }
+        ], 
+        alphaDrops: [
+          { name: "Wool", img: "images/wool.png", qty: "x1-2", rate: "60%" },
+          { name: "Leather", img: "images/leather.png", qty: "x2", rate: "100%" }
+        ] 
+      },
+      { id: 2, name: "Cattiva", imgUrl: "images/cattiva.png", color: "#252b33", isLucky: false, 
+        work: { handiwork: 1, gathering: 1, mining: 1, transporting: 1}, 
+        normalDrops: [
+          { name: "Wool", img: "images/wool.png", qty: "x20", rate: "60%" },
+          { name: "Leather", img: "images/leather.png", qty: "x10", rate: "100%" }
+        ], 
+        alphaDrops: [
+          { name: "Wool", img: "images/wool.png", qty: "x20", rate: "60%" },
+          { name: "Leather", img: "images/leather.png", qty: "x20", rate: "100%" }
+        ] 
+      },
+      { id: 3, name: "Chikipi", imgUrl: "images/chikipi.png", color: "#252b33", isLucky: false, description: "à affecter à une Exploitation pour une chance d'obtenir des <span class=\"mot-jaune\">oeufs</span>.", 
+        work: { gathering: 1, farming: 1}, 
+        normalDrops: [
+          { name: "Wool", img: "images/wool.png", qty: "x1-2", rate: "100%" },
+          { name: "Leather", img: "images/leather.png", qty: "x1", rate: "100%" }
+        ], 
+        alphaDrops: [
+          { name: "Wool", img: "images/wool.png", qty: "x1-2", rate: "100%" },
+          { name: "Leather", img: "images/leather.png", qty: "x2", rate: "100%" }
+        ] 
+      },
+      { id: 4, name: "Lifmunk", imgUrl: "images/lifmunk.png", color: "#252b33", isLucky: false, 
+        work: { planting: 1, handiwork: 1, gathering: 1, lumbering: 1, medicine: 1}, 
+        normalDrops: [
+          { name: "Wool", img: "images/wool.png", qty: "x1-2", rate: "100%" },
+          { name: "Leather", img: "images/leather.png", qty: "x1", rate: "100%" }
+        ], 
+        alphaDrops: [
+          { name: "Wool", img: "images/wool.png", qty: "x1-2", rate: "100%" },
+          { name: "Leather", img: "images/leather.png", qty: "x2", rate: "100%" }
+        ] 
+      },
+      { id: 5, name: "Fuack", imgUrl: "images/fuack.png", color: "#252b33", isLucky: false, 
+        work: { watering: 1, handiwork: 1, transporting: 1}, 
+        normalDrops: [
+          { name: "Wool", img: "images/wool.png", qty: "x1-2", rate: "100%" },
+          { name: "Leather", img: "images/leather.png", qty: "x1", rate: "100%" }
+        ], 
+        alphaDrops: [
+          { name: "Wool", img: "images/wool.png", qty: "x1-2", rate: "100%" },
+          { name: "Leather", img: "images/leather.png", qty: "x2", rate: "100%" }
+        ] 
+      },
+      { id: "5B", name: "Fuack Ignis", imgUrl: "images/fuack-ignis.png", color: "#252b33", isLucky: false, 
+        work: { kindling: 2, watering: 2, handiwork: 1, transporting: 1}, 
+        normalDrops: [
+          { name: "Wool", img: "images/wool.png", qty: "x1-2", rate: "100%" },
+          { name: "Leather", img: "images/leather.png", qty: "x1", rate: "100%" }
+        ], 
+        alphaDrops: [
+          { name: "Wool", img: "images/wool.png", qty: "x1-2", rate: "100%" },
+          { name: "Leather", img: "images/leather.png", qty: "x2", rate: "100%" }
+        ] 
+      },
+      { id: 6, name: "Vixy", imgUrl: "images/vixy.png", color: "#252b33", isLucky: false, 
+        work: { gathering: 1, farming: 1}, 
+        normalDrops: [
+          { name: "Wool", img: "images/wool.png", qty: "x1-2", rate: "100%" },
+          { name: "Leather", img: "images/leather.png", qty: "x1", rate: "100%" }
+        ], 
+        alphaDrops: [
+          { name: "Wool", img: "images/wool.png", qty: "x1-2", rate: "100%" },
+          { name: "Leather", img: "images/leather.png", qty: "x2", rate: "100%" }
+        ] 
+      },
+      { id: 7, name: "Celaray", imgUrl: "images/celaray.png", color: "#252b33", isLucky: false, 
+        work: { watering: 1, transporting: 1}, 
+        normalDrops: [
+          { name: "Wool", img: "images/wool.png", qty: "x1-2", rate: "100%" },
+          { name: "Leather", img: "images/leather.png", qty: "x1", rate: "100%" }
+        ], 
+        alphaDrops: [
+          { name: "Wool", img: "images/wool.png", qty: "x1-2", rate: "100%" },
+          { name: "Leather", img: "images/leather.png", qty: "x2", rate: "100%" }
+        ] 
+      },
+      { id: "7B", name: "Celaray Lux", imgUrl: "images/celaray-lux.png", color: "#252b33", isLucky: false, 
+        work: { watering: 1, electricity: 2, transporting: 1}, 
+        normalDrops: [
+          { name: "Wool", img: "images/wool.png", qty: "x1-2", rate: "100%" },
+          { name: "Leather", img: "images/leather.png", qty: "x1", rate: "100%" }
+        ], 
+        alphaDrops: [
+          { name: "Wool", img: "images/wool.png", qty: "x1-2", rate: "100%" },
+          { name: "Leather", img: "images/leather.png", qty: "x2", rate: "100%" }
+        ] 
+      },
+      { id: 8, name: "Cremis", imgUrl: "images/cremis.png", color: "#252b33", isLucky: false, 
+        work: { gathering: 1, farming: 2}, 
+        normalDrops: [
+          { name: "Wool", img: "images/wool.png", qty: "x1-2", rate: "100%" },
+          { name: "Leather", img: "images/leather.png", qty: "x1", rate: "100%" }
+        ], 
+        alphaDrops: [
+          { name: "Wool", img: "images/wool.png", qty: "x1-2", rate: "100%" },
+          { name: "Leather", img: "images/leather.png", qty: "x2", rate: "100%" }
+        ] 
+      },
+      { id: 9, name: "Croajiro", imgUrl: "images/croajiro.png", color: "#252b33", isLucky: false, 
+        work: { watering: 1, handiwork: 1, gathering: 1, transporting: 1}, 
+        normalDrops: [
+          { name: "Wool", img: "images/wool.png", qty: "x1-2", rate: "100%" },
+          { name: "Leather", img: "images/leather.png", qty: "x1", rate: "100%" }
+        ], 
+        alphaDrops: [
+          { name: "Wool", img: "images/wool.png", qty: "x1-2", rate: "100%" },
+          { name: "Leather", img: "images/leather.png", qty: "x2", rate: "100%" }
+        ] 
+      },
+      { id: "9B", name: "Croajiro Noct", imgUrl: "images/croajiro-noct.png", color: "#252b33", isLucky: false, 
+        work: { watering: 1, handiwork: 2, gathering: 1, transporting: 1}, 
+        normalDrops: [
+          { name: "Wool", img: "images/wool.png", qty: "x1-2", rate: "100%" },
+          { name: "Leather", img: "images/leather.png", qty: "x1", rate: "100%" }
+        ], 
+        alphaDrops: [
+          { name: "Wool", img: "images/wool.png", qty: "x1-2", rate: "100%" },
+          { name: "Leather", img: "images/leather.png", qty: "x2", rate: "100%" }
+        ] 
+      },
+      { id: 10, name: "Herbil", imgUrl: "images/herbil.png", color: "#252b33", isLucky: false, 
+        work: { planting: 1, gathering: 1, transporting: 1}, 
+        normalDrops: [
+          { name: "Wool", img: "images/wool.png", qty: "x1-2", rate: "100%" },
+          { name: "Leather", img: "images/leather.png", qty: "x1", rate: "100%" }
+        ], 
+        alphaDrops: [
+          { name: "Wool", img: "images/wool.png", qty: "x1-2", rate: "100%" },
+          { name: "Leather", img: "images/leather.png", qty: "x2", rate: "100%" }
+        ] 
+      },
+      { id: 11, name: "Teafant", imgUrl: "images/teafant.png", color: "#252b33", isLucky: false, 
+        work: { watering: 1}, 
+        normalDrops: [
+          { name: "Wool", img: "images/wool.png", qty: "x1-2", rate: "100%" },
+          { name: "Leather", img: "images/leather.png", qty: "x1", rate: "100%" }
+        ], 
+        alphaDrops: [
+          { name: "Wool", img: "images/wool.png", qty: "x1-2", rate: "100%" },
+          { name: "Leather", img: "images/leather.png", qty: "x2", rate: "100%" }
+        ] 
+      },
+      { id: 12, name: "Gumoss", imgUrl: "images/gumoss.png", color: "#252b33", isLucky: false, 
+        work: { planting: 1}, 
+        normalDrops: [
+          { name: "Wool", img: "images/wool.png", qty: "x1-2", rate: "100%" },
+          { name: "Leather", img: "images/leather.png", qty: "x1", rate: "100%" }
+        ], 
+        alphaDrops: [
+          { name: "Wool", img: "images/wool.png", qty: "x1-2", rate: "100%" },
+          { name: "Leather", img: "images/leather.png", qty: "x2", rate: "100%" }
+        ] 
+      },
+      { id: 13, name: "Pupperai", imgUrl: "images/pupperai.png", color: "#252b33", isLucky: false, 
+        work: { gathering: 1, lumbering: 1, transporting: 1}, 
+        normalDrops: [
+          { name: "Wool", img: "images/wool.png", qty: "x1-2", rate: "100%" },
+          { name: "Leather", img: "images/leather.png", qty: "x1", rate: "100%" }
+        ], 
+        alphaDrops: [
+          { name: "Wool", img: "images/wool.png", qty: "x1-2", rate: "100%" },
+          { name: "Leather", img: "images/leather.png", qty: "x2", rate: "100%" }
+        ] 
+      },
+      { id: 14, name: "Clovee", imgUrl: "images/clovee.png", color: "#252b33", isLucky: false, description: "Lorsque le Pal est affecté à une base, augmente d'un niveau (+1) l'aptitude au travail de <span class=\"mot-jaune\">collecte</span> de tous les autres Pals de la base. (Ne se cumule pas)", 
+        work: { planting: 1, gathering: 1}, 
+        normalDrops: [
+          { name: "Wool", img: "images/wool.png", qty: "x1-2", rate: "100%" },
+          { name: "Leather", img: "images/leather.png", qty: "x1", rate: "100%" }
+        ], 
+        alphaDrops: [
+          { name: "Wool", img: "images/wool.png", qty: "x1-2", rate: "100%" },
+          { name: "Leather", img: "images/leather.png", qty: "x2", rate: "100%" }
+        ] 
+      },
+      { id: 100, name: "Anubis (Lucky ✨)", imgUrl: "images/anubis-lucky.png", color: "#252b33", isLucky: true, 
+        work: { handiwork: 6, mining: 6, transporting: 4 }, 
+        normalDrops: [
+          { name: "Wool", img: "images/wool.png", qty: "x1-2", rate: "100%" },
+          { name: "Leather", img: "images/leather.png", qty: "x1", rate: "100%" }
+        ], 
+        alphaDrops: [
+          { name: "Wool", img: "images/wool.png", qty: "x1-2", rate: "100%" },
+          { name: "Leather", img: "images/leather.png", qty: "x2", rate: "100%" }
+        ] 
+      },
+      { id: 100, name: "Anubis", imgUrl: "images/anubis.png", color: "#252b33", isLucky: false, 
+        work: { handiwork: 6, mining: 6, transporting: 4 }, 
+        normalDrops: [
+          { name: "Wool", img: "images/wool.png", qty: "x1-2", rate: "100%" },
+          { name: "Leather", img: "images/leather.png", qty: "x1", rate: "100%" }
+        ], 
+        alphaDrops: [
+          { name: "Wool", img: "images/wool.png", qty: "x1-2", rate: "100%" },
+          { name: "Leather", img: "images/leather.png", qty: "x2", rate: "100%" }
+        ] 
+      },
+      { id: 102, name: "Blazamut", imgUrl: "images/blazamut.png", color: "#252b33", isLucky: false, 
+        work: { kindling: 3, mining: 7 }, 
+        normalDrops: [
+          { name: "Wool", img: "images/wool.png", qty: "x1-2", rate: "100%" },
+          { name: "Leather", img: "images/leather.png", qty: "x1", rate: "100%" }
+        ], 
+        alphaDrops: [
+          { name: "Wool", img: "images/wool.png", qty: "x1-2", rate: "100%" },
+          { name: "Leather", img: "images/leather.png", qty: "x2", rate: "100%" }
+        ] 
+      },
+      { id: 101, name: "Astegon", imgUrl: "images/astegon.png", color: "#252b33", isLucky: false, 
+        work: { mining: 7, handiwork: 3 }, 
+        normalDrops: [
+          { name: "Wool", img: "images/wool.png", qty: "x1-2", rate: "100%" },
+          { name: "Leather", img: "images/leather.png", qty: "x1", rate: "100%" }
+        ], 
+        alphaDrops: [
+          { name: "Wool", img: "images/wool.png", qty: "x1-2", rate: "100%" },
+          { name: "Leather", img: "images/leather.png", qty: "x2", rate: "100%" }
+        ] 
+      },
+      { id: 64, name: "Digtoise", imgUrl: "images/digtoise.png", color: "#252b33", isLucky: false, 
+        work: { mining: 4 }, 
+        normalDrops: [
+          { name: "Wool", img: "images/wool.png", qty: "x1-2", rate: "100%" },
+          { name: "Leather", img: "images/leather.png", qty: "x1", rate: "100%" }
+        ], 
+        alphaDrops: [
+          { name: "Wool", img: "images/wool.png", qty: "x1-2", rate: "100%" },
+          { name: "Leather", img: "images/leather.png", qty: "x2", rate: "100%" }
+        ] 
+      },
+      { id: 121, name: "Jormuntide", imgUrl: "images/jormuntide.png", color: "#252b33", isLucky: false, 
+        work: { watering: 7 }, 
+        normalDrops: [
+          { name: "Wool", img: "images/wool.png", qty: "x1-2", rate: "100%" },
+          { name: "Leather", img: "images/leather.png", qty: "x1", rate: "100%" }
+        ], 
+        alphaDrops: [
+          { name: "Wool", img: "images/wool.png", qty: "x1-2", rate: "100%" },
+          { name: "Leather", img: "images/leather.png", qty: "x2", rate: "100%" }
+        ] 
+      },
+      { id: "121B", name: "Jormuntide Ignis", imgUrl: "images/jormuntide-ignis.png", color: "#252b33", isLucky: false, 
+        work: { kindling: 7 }, 
+        normalDrops: [
+          { name: "Wool", img: "images/wool.png", qty: "x1-2", rate: "100%" },
+          { name: "Leather", img: "images/leather.png", qty: "x1", rate: "100%" }
+        ], 
+        alphaDrops: [
+          { name: "Wool", img: "images/wool.png", qty: "x1-2", rate: "100%" },
+          { name: "Leather", img: "images/leather.png", qty: "x2", rate: "100%" }
+        ] 
+      },
+      { id: 186, name: "Lyleen", imgUrl: "images/lyleen.png", color: "#252b33", isLucky: false, 
+        work: { planting: 7, handiwork: 5, medicine: 5, gathering: 6 }, 
+        normalDrops: [
+          { name: "Wool", img: "images/wool.png", qty: "x1-2", rate: "100%" },
+          { name: "Leather", img: "images/leather.png", qty: "x1", rate: "100%" }
+        ], 
+        alphaDrops: [
+          { name: "Wool", img: "images/wool.png", qty: "x1-2", rate: "100%" },
+          { name: "Leather", img: "images/leather.png", qty: "x2", rate: "100%" }
+        ] 
+      },
+      { id: 134, name: "Wumpo", imgUrl: "images/wumpo.png", color: "#252b33", isLucky: false, 
+        work: { lumbering: 5, transporting: 6, cooling: 5 }, 
+        normalDrops: [
+          { name: "Wool", img: "images/wool.png", qty: "x1-2", rate: "100%" },
+          { name: "Leather", img: "images/leather.png", qty: "x1", rate: "100%" }
+        ], 
+        alphaDrops: [
+          { name: "Wool", img: "images/wool.png", qty: "x1-2", rate: "100%" },
+          { name: "Leather", img: "images/leather.png", qty: "x2", rate: "100%" }
+        ] 
+      },
+      { id: 187, name: "Orserk", imgUrl: "images/orserk.png", color: "#252b33", isLucky: false, 
+        work: { electricity: 8, handiwork: 4, transporting: 4 }, 
+        normalDrops: [
+          { name: "Wool", img: "images/wool.png", qty: "x1-2", rate: "100%" },
+          { name: "Leather", img: "images/leather.png", qty: "x1", rate: "100%" }
+        ], 
+        alphaDrops: [
+          { name: "Wool", img: "images/wool.png", qty: "x1-2", rate: "100%" },
+          { name: "Leather", img: "images/leather.png", qty: "x2", rate: "100%" }
+        ] 
+      }
     ];
 
-    // -----------------------------------------------------------------
-    // 🛡️ 3.B : GESTION DES IMAGES MANQUANTES
-    // Si la photo n'est pas trouvée, affiche la 1ère lettre + la couleur
-    // -----------------------------------------------------------------
     function imageErreur(element, palName, palColor) {
       const container = element.parentElement;
       container.style.backgroundColor = palColor || '#4f46e5';
       container.innerHTML = palName.charAt(0).toUpperCase();
     }
 
-    // -----------------------------------------------------------------
-    // ⚙️ 3.C : FONCTION DE FILTRAGE ET DE TRI
-    // Déclenchée automatiquement à chaque changement dans le menu
-    // -----------------------------------------------------------------
-    function filtrerPals() {
-      const select = document.getElementById("work-select");
-      const selectedWork = select.value;
-      const resultsDiv = document.getElementById("results");
-
-      // 1. Si aucun métier n'est choisi
-      if (!selectedWork) {
-        resultsDiv.innerHTML = '<div class="empty-state">Sélectionne une activité ci-dessus pour afficher les meilleurs Pals.</div>';
-        return;
-      }
-
-      // 2. On garde seulement les Pals ayant le métier sélectionné
-      const palsFiltres = palsDatabase.filter(pal => pal.work[selectedWork] !== undefined);
-
-      // 3. On trie : d'abord le plus haut niveau (4 -> 3 -> 2 -> 1), et si niveau égal, la version Lucky avant la normale
-      palsFiltres.sort((a, b) => {
-        if (b.work[selectedWork] !== a.work[selectedWork]) {
-          return b.work[selectedWork] - a.work[selectedWork];
-        }
-        return (b.isLucky ? 1 : 0) - (a.isLucky ? 1 : 0);
-      });
-
-      // 4. Si aucun Pal ne correspond
-      if (palsFiltres.length === 0) {
-        resultsDiv.innerHTML = '<div class="empty-state">Aucun Pal trouvé pour cette tâche dans la base.</div>';
-        return;
-      }
-
-      // 5. On génère l'affichage HTML
-      resultsDiv.innerHTML = palsFiltres.map(pal => `
-        <div class="pal-card ${pal.isLucky ? 'lucky-card' : ''}">
-          <div class="pal-img-container" style="background-color: ${pal.color || '#374151'}">
-            <img 
-              src="${pal.imgUrl}" 
-              alt="${pal.name}" 
-              class="pal-img" 
-              onerror="imageErreur(this, '${pal.name}', '${pal.color}')"
-            >
-          </div>
-          <div class="pal-info">
-            <div class="pal-name ${pal.isLucky ? 'lucky-text' : ''}">#${pal.id} - ${pal.name}</div>
-            <div class="pal-badge-desc">
-              ${pal.isLucky ? "Passif 'Chanceux' (+15% Vitesse)" : (pal.description || "Version classique")}
-            </div>
-          </div>
-          <span class="pal-level">Niveau ${pal.work[selectedWork]}</span>
-        </div>
-      `).join('');
+    function imageDropErreur(element) {
+      element.style.display = 'none'; 
     }
 
+    function changerCategoriePrincipale() {
+      const mainCat = document.getElementById("main-category").value;
+      
+      // Masquer l'étape principale
+      document.getElementById("step-main").classList.add("hidden");
+      document.getElementById("results").innerHTML = '<div class="empty-state">Sélectionne une option ci-dessous.</div>';
+
+      if (mainCat === "metiers") {
+        document.getElementById("step-metiers").classList.remove("hidden");
+        document.getElementById("work-select").value = "";
+      } else if (mainCat === "ressources") {
+        document.getElementById("step-ressources").classList.remove("hidden");
+      }
+    }
+
+    function selectionnerRessource(nomRessource) {
+      ressourceSelectionnee = nomRessource;
+
+      // Masquer le choix des ressources, afficher l'étape du type de Pal
+      document.getElementById("step-ressources").classList.add("hidden");
+      document.getElementById("step-type-pal").classList.remove("hidden");
+      document.getElementById("type-pal-select").value = "";
+
+      document.getElementById("results").innerHTML = '<div class="empty-state">Choisis le type de Pal (Normal ou Alpha).</div>';
+    }
+
+    function retourEtapeMain() {
+      // Réinitialiser les sélections
+      document.getElementById("main-category").value = "";
+      document.getElementById("work-select").value = "";
+      document.getElementById("type-pal-select").value = "";
+      ressourceSelectionnee = "";
+
+      // Cacher tous les sous-menus et réafficher l'étape principale
+      document.getElementById("step-metiers").classList.add("hidden");
+      document.getElementById("step-ressources").classList.add("hidden");
+      document.getElementById("step-type-pal").classList.add("hidden");
+      document.getElementById("step-main").classList.remove("hidden");
+
+      document.getElementById("results").innerHTML = '<div class="empty-state">Sélectionne une option ci-dessus pour afficher les résultats.</div>';
+    }
+
+    function retourEtapeRessources() {
+      document.getElementById("type-pal-select").value = "";
+      document.getElementById("step-type-pal").classList.add("hidden");
+      document.getElementById("step-ressources").classList.remove("hidden");
+      document.getElementById("results").innerHTML = '<div class="empty-state">Sélectionne une ressource.</div>';
+    }
+
+    function filtrerPals() {
+      const mainCat = document.getElementById("main-category").value;
+      const resultsDiv = document.getElementById("results");
+      let palsFiltres = [];
+
+      if (mainCat === "metiers") {
+        const selectedWork = document.getElementById("work-select").value;
+        if (!selectedWork) {
+          resultsDiv.innerHTML = '<div class="empty-state">Sélectionne un métier.</div>';
+          return;
+        }
+
+        if (selectedWork === "bonus-base") {
+          palsFiltres = palsDatabase.filter(pal => pal.description && pal.description.trim() !== "");
+        } else {
+          palsFiltres = palsDatabase.filter(pal => pal.work && pal.work[selectedWork] !== undefined);
+          palsFiltres.sort((a, b) => {
+            if (b.work[selectedWork] !== a.work[selectedWork]) {
+              return b.work[selectedWork] - a.work[selectedWork];
+            }
+            return (b.isLucky ? 1 : 0) - (a.isLucky ? 1 : 0);
+          });
+        }
+
+        renderResults(palsFiltres, "metier", selectedWork);
+
+      } else if (mainCat === "ressources") {
+        const palType = document.getElementById("type-pal-select").value;
+
+        if (!ressourceSelectionnee || !palType) {
+          resultsDiv.innerHTML = '<div class="empty-state">Sélectionne le type de Pal.</div>';
+          return;
+        }
+
+        if (palType === "normal") {
+          palsFiltres = palsDatabase.filter(pal => pal.normalDrops && pal.normalDrops.some(d => d.name === ressourceSelectionnee));
+        } else {
+          palsFiltres = palsDatabase.filter(pal => pal.alphaDrops && pal.alphaDrops.some(d => d.name === ressourceSelectionnee));
+        }
+
+        // Tri intelligent : Meilleur taux d'abord, puis plus grande quantité
+        palsFiltres.sort((a, b) => {
+          const dropsA = (palType === "normal" ? a.normalDrops : a.alphaDrops).find(d => d.name === ressourceSelectionnee);
+          const dropsB = (palType === "normal" ? b.normalDrops : b.alphaDrops).find(d => d.name === ressourceSelectionnee);
+
+          const rateA = parseInt(dropsA.rate) || 0;
+          const rateB = parseInt(dropsB.rate) || 0;
+          if (rateA !== rateB) {
+            return rateB - rateA; 
+          }
+
+          const qtyMaxA = parseInt(dropsA.qty.split('-').pop()) || 0;
+          const qtyMaxB = parseInt(dropsB.qty.split('-').pop()) || 0;
+          return qtyMaxB - qtyMaxA; 
+        });
+
+        renderResults(palsFiltres, "ressource", palType, ressourceSelectionnee);
+      }
+    }
+
+    function renderResults(pals, mode, subParam, targetResource = "") {
+      const resultsDiv = document.getElementById("results");
+
+      if (pals.length === 0) {
+        resultsDiv.innerHTML = '<div class="empty-state">Aucun Pal trouvé pour cette sélection.</div>';
+        return;
+      }
+
+      resultsDiv.innerHTML = pals.map(pal => {
+        let badgeText = "";
+        let dropsHTML = "";
+
+        if (mode === "metier") {
+          badgeText = subParam === "bonus-base" ? "Bonus / Effets" : "Niveau " + pal.work[subParam];
+          let descText = pal.description ? pal.description : (pal.isLucky ? "Passif 'Chanceux' (+15% Vitesse)" : "");
+          
+          if (descText) {
+            dropsHTML = `<div class="pal-badge-desc">${descText}</div>`;
+          }
+        } else {
+          badgeText = subParam === "normal" ? "Normal" : "Alpha (Boss)";
+          let listToDisplay = (subParam === "normal") ? pal.normalDrops : pal.alphaDrops;
+
+          dropsHTML = `<div class="drops-list">` + listToDisplay.map(drop => {
+            let isRare = drop.rate !== "100%";
+            return `
+              <div class="drop-item" ${drop.name === targetResource ? 'style="border-color: #60a5fa;"' : ''}>
+                <img src="${drop.img}" alt="${drop.name}" class="drop-img" onerror="imageDropErreur(this)">
+                <div class="drop-details">
+                  <span class="drop-name">${drop.name}</span>
+                  <div class="drop-stats">
+                    <span>Quantité : <strong class="drop-qty">${drop.qty}</strong></span>
+                    <span>•</span>
+                    <span>Taux : <span class="${isRare ? 'rate-rare' : ''}">${drop.rate}</span></span>
+                  </div>
+                </div>
+              </div>
+            `;
+          }).join('') + `</div>`;
+        }
+
+        return `
+          <div class="pal-card ${pal.isLucky ? 'lucky-card' : ''}">
+            <div class="pal-img-container" style="background-color: ${pal.color || '#374151'}">
+              <img 
+                src="${pal.imgUrl}" 
+                alt="${pal.name}" 
+                class="pal-img" 
+                onerror="imageErreur(this, '${pal.name}', '${pal.color}')"
+              >
+            </div>
+            <div class="pal-info">
+              <div class="pal-name ${pal.isLucky ? 'lucky-text' : ''}">#${pal.id} - ${pal.name}</div>
+              ${dropsHTML}
+            </div>
+            <span class="pal-level">${badgeText}</span>
+          </div>
+        `;
+      }).join('');
+    }
   </script>
 </body>
 </html>
