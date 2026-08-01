@@ -1,0 +1,1890 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Palworld - Guide des Pals et Ressources</title>
+
+  <!-- ================================================================= -->
+  <!-- 🎨 SECTION 1 : DESIGN & STYLE (CSS)                               -->
+  <!-- ================================================================= -->
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    :root {
+      --bg-color: #1a1e24;       
+      --card-bg: #252b33;       
+      --accent: #4f46e5;        
+      --accent-hover: #4338ca;  
+      --text: #f3f4f6;          
+      --text-muted: #9ca3af;    
+      --border: #374151;        
+      --title-color: #60a5fa;   
+      --gold: #eab308;          
+      --red: #ef4444;           
+      --orange: #f97316;        
+      --yellow: #facc15;        
+      --green: #22c55e;         
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: var(--bg-color);
+      color: var(--text);
+      margin: 0;
+      padding: 20px;
+      display: flex;
+      justify-content: center;
+    }
+
+    .container {
+      max-width: 900px;
+      width: 100%;
+    }
+
+    h1 {
+      text-align: center;
+      color: var(--title-color);
+      margin-bottom: 25px;
+      font-size: 1.8rem;
+    }
+
+    .controls {
+      background-color: var(--card-bg);
+      padding: 20px;
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      margin-bottom: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+    }
+
+    .menu-step {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .hidden {
+      display: none !important;
+    }
+
+    .btn-retour {
+      background-color: #374151;
+      color: var(--text);
+      border: 1px solid var(--border);
+      padding: 8px 14px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: bold;
+      align-self: flex-start;
+      margin-bottom: 5px;
+      transition: background-color 0.2s;
+    }
+
+    .btn-retour:hover {
+      background-color: #4b5563;
+    }
+
+    label {
+      font-weight: bold;
+      display: block;
+      margin-bottom: 5px;
+    }
+
+    select, input[type="text"] {
+      width: 100%;
+      padding: 12px;
+      border-radius: 6px;
+      background-color: var(--bg-color);
+      color: var(--text);
+      border: 1px solid var(--border);
+      font-size: 16px;
+    }
+
+    select:focus, input[type="text"]:focus {
+      outline: 2px solid var(--accent);
+    }
+
+    /* Grille de sélection des ressources cliquables */
+    .resources-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+      gap: 12px;
+      margin-top: 5px;
+    }
+
+    .resource-card-select {
+      border-radius: 10px;
+      padding: 15px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 12px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      position: relative;
+    }
+
+    .resource-card-select:hover {
+      border-color: var(--accent);
+      transform: translateY(-2px);
+    }
+
+    .resource-card-select img {
+      width: 100px;
+      height: 100px;
+      object-fit: contain;
+    }
+
+    .resource-card-select span {
+      font-size: 15px;
+      font-weight: bold;
+      text-align: center;
+    }
+
+    /* 🚀 INFOBULLE PERSONNALISÉE ULTRA-RAPIDE (0.1s) */
+    .resource-card-select::after {
+      content: attr(data-tooltip);
+      position: absolute;
+      bottom: 105%;
+      left: 50%;
+      transform: translateX(-50%);
+      background-color: #111827;
+      color: #f3f4f6;
+      padding: 5px 10px;
+      border-radius: 6px;
+      font-size: 12px;
+      white-space: nowrap;
+      border: 1px solid var(--border);
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.1s ease;
+      pointer-events: none;
+      z-index: 10;
+    }
+
+    .resource-card-select:hover::after {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    /* 🎨 STYLES DE RARETÉ POUR LES ITEMS */
+    .rarity-common {
+      background-color: #2b2b2b;
+      border: 1px solid #6c757d;
+      color: #ffffff;
+    }
+
+    .rarity-uncommon {
+      background-color: #1e3a1e;
+      border: 1px solid #4caf50;
+      color: #8bc34a;
+    }
+
+    .rarity-rare {
+      background-color: #1a2f4c;
+      border: 1px solid #2196f3;
+      color: #64b5f6;
+    }
+
+    .rarity-epic {
+      background-color: #3b1d3d;
+      border: 1px solid #9c27b0;
+      color: #e040fb;
+    }
+
+    .rarity-legendary {
+      background-color: #3d2c1e;
+      border: 1px solid #ff9800;
+      color: #ffb74d;
+    }
+
+    .results {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+    }
+
+    .pal-card {
+      background-color: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 20px;
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      transition: transform 0.15s ease, border-color 0.15s ease;
+    }
+
+    .pal-card:hover {
+      transform: translateY(-2px);
+      border-color: var(--accent);
+    }
+
+    .pal-card.lucky-card {
+      border: 3px solid var(--gold);
+      box-shadow: 0 0 10px rgba(234, 179, 8, 0.2);
+    }
+
+    .pal-img-container {
+      width: 130px;
+      height: 130px;
+      flex-shrink: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      border-radius: 10px;
+      overflow: hidden;
+      border: 1px solid var(--border);
+      font-weight: bold;
+      font-size: 26px;
+      color: #ffffff;
+    }
+
+    .pal-img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .pal-info {
+      flex-grow: 1;
+    }
+
+    .pal-name {
+      font-size: 24px;
+      font-weight: bold;
+      margin-bottom: 10px;
+      color: #ffffff;
+    }
+
+    .pal-name.lucky-text {
+      color: var(--gold);
+    }
+
+    .pal-badge-desc {
+      font-size: 16px;
+      color: var(--text-muted);
+      margin-top: 4px;
+    }
+
+    .mot-jaune {
+      color: #ffcc00;
+      font-weight: bold;
+    }
+
+    .drops-list {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin-top: 10px;
+    }
+
+    .drop-item {
+      background-color: #1f2937;
+      border: 1px solid var(--border);
+      padding: 14px 18px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      gap: 20px;
+    }
+
+    .drop-img {
+      width: 70px;
+      height: 70px;
+      object-fit: contain;
+      background-color: #111827;
+      border-radius: 10px;
+      padding: 7px;
+      border: 1px solid var(--border);
+      flex-shrink: 0;
+    }
+
+    .drop-details {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .drop-name {
+      color: #93c5fd;
+      font-weight: bold;
+      font-size: 19px;
+    }
+
+    .drop-stats {
+      font-size: 16px;
+      color: var(--text-muted);
+      display: flex;
+      gap: 15px;
+    }
+
+    .drop-qty {
+      font-weight: 600;
+    }
+
+    /* Paliers de couleurs Taux & Quantité */
+    .rate-low { color: var(--red); font-weight: bold; }
+    .rate-orange { color: var(--orange); font-weight: bold; }
+    .rate-yellow { color: var(--yellow); font-weight: bold; }
+    .rate-perfect { color: var(--green); font-weight: bold; }
+
+    .qty-low { color: var(--red); font-weight: bold; }       
+    .qty-orange { color: var(--orange); font-weight: bold; }  
+    .qty-perfect { color: var(--green); font-weight: bold; }  
+
+    .pal-level {
+      background-color: var(--accent);
+      color: #ffffff;
+      padding: 8px 16px;
+      border-radius: 20px;
+      font-weight: bold;
+      font-size: 14px;
+      white-space: nowrap;
+      align-self: flex-start;
+    }
+
+    .empty-state {
+      text-align: center;
+      color: var(--text-muted);
+      margin-top: 30px;
+      font-style: italic;
+      font-size: 16px;
+    }
+
+    @media (max-width: 600px) {
+      .pal-card {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+      }
+
+      .pal-img-container {
+        width: 100px;
+        height: 100px;
+      }
+
+      .pal-info {
+        width: 100%;
+      }
+
+      .drop-item {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+      }
+
+      .drop-stats {
+        justify-content: center;
+      }
+
+      .pal-level {
+        align-self: center;
+        margin-top: 5px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    
+    <h1>⚔️ Palworld - Guide des Pals (Métiers & Drops)</h1>
+
+    <div class="controls">
+
+      <!-- 🔍 BARRE DE RECHERCHE RAPIDE GLOBALE -->
+      <div class="menu-step" style="border-bottom: 1px solid var(--border); padding-bottom: 15px; margin-bottom: 5px;">
+        <label for="search-bar">🔍 Recherche rapide d'un Pal par son nom :</label>
+        <input 
+          type="text" 
+          id="search-bar" 
+          placeholder="Ex: Lamball, Cattiva, Fuack..." 
+          oninput="rechercheGlobalePal()"
+        >
+      </div>
+
+      <div id="step-main" class="menu-step">
+        <label for="main-category">Choisis une section :</label>
+        <select id="main-category" onchange="changerCategoriePrincipale()">
+          <option value="">-- Choisir --</option>
+          <option value="metiers">🏕️ Pals pour le Camp (Métiers)</option>
+          <option value="ressources">📦 Ressources et Drops (Chasse)</option>
+        </select>
+      </div>
+
+      <div id="step-metiers" class="menu-step hidden">
+        <button class="btn-retour" onclick="retourEtapeMain()">⬅️ Retour</button>
+        <label for="work-select">Sélectionne un métier :</label>
+        <select id="work-select" onchange="filtrerPals()">
+          <option value="">-- Choisir un métier --</option>
+          <option value="lumbering">Abattage (Lumbering)</option>
+          <option value="kindling">Allumage de feu (Kindling)</option>
+          <option value="watering">Arrosage (Watering)</option>
+          <option value="handiwork">Artisanat (Handiwork)</option>
+          <option value="bonus-base">✨ Bonus / Effets de base</option>
+          <option value="gathering">Collecte (Gathering)</option>
+          <option value="farming">Exploitation (Farming)</option>
+          <option value="mining">Extraction (Mining)</option>
+          <option value="electricity">Génération d'énergie (Electricity)</option>
+          <option value="medicine">Pharmacie (Medicine)</option>
+          <option value="cooling">Réfrigération (Cooling)</option>
+          <option value="planting">Semence (Planting)</option>
+          <option value="transporting">Transport (Transporting)</option>
+        </select>
+      </div>
+
+      <div id="step-ressources" class="menu-step hidden">
+        <button class="btn-retour" onclick="retourEtapeMain()">⬅️ Retour</button>
+        
+        <!-- 🌟 MENU DE FILTRE DE QUALITÉ & RECHERCHE D'ITEMS -->
+        <div style="display: flex; gap: 10px; margin-bottom: 10px; flex-wrap: wrap;">
+          <div style="flex: 1; min-width: 200px;">
+            <label for="filtre-qualite">Filtrer par qualité (optionnel) :</label>
+            <select id="filtre-qualite" onchange="filtrerRessourcesGrille()">
+              <option value="all">-- Toutes les qualités --</option>
+              <option value="rarity-common">Commun</option>
+              <option value="rarity-uncommon">Inhabituel</option>
+              <option value="rarity-rare">Rare</option>
+              <option value="rarity-epic">Épique</option>
+              <option value="rarity-legendary">Légendaire</option>
+            </select>
+          </div>
+          <div style="flex: 1; min-width: 200px;">
+            <label for="search-item-bar">🔍 Rechercher un item :</label>
+            <input 
+              type="text" 
+              id="search-item-bar" 
+              placeholder="Ex: Cuir, Laine, Anneau..." 
+              oninput="filtrerRessourcesGrille()"
+            >
+          </div>
+        </div>
+
+        <label>Choisis une ressource :</label>
+        <div class="resources-grid">
+          <div class="resource-card-select rarity-uncommon" data-ressource="Anneau de fret +1" data-tooltip="Qualité : Inhabituel">
+            <img src="images/ring_of_freight.png" alt="Anneau de fret +1">
+            <span>Anneau de fret +1</span>
+          </div>
+          <div class="resource-card-select rarity-rare" data-ressource="Anneau de fret +2" data-tooltip="Qualité : Rare">
+            <img src="images/ring_of_freight.png" alt="Anneau de fret +2">
+            <span>Anneau de fret +2</span>
+          </div>
+          <div class="resource-card-select rarity-common" data-ressource="Anneau de résistance à l'eau" data-tooltip="Qualité : Commun">
+            <img src="images/ring_of_water_resistance.png" alt="Anneau de résistance à l'eau">
+            <span>Anneau de résistance à l'eau</span>
+          </div>
+          <div class="resource-card-select rarity-uncommon" data-ressource="Anneau de résistance à l'eau +1" data-tooltip="Qualité : Inhabituel">
+            <img src="images/ring_of_water_resistance.png" alt="Anneau de résistance à l'eau +1"> 
+            <span>Anneau de résistance à l'eau +1</span>
+          </div>
+          <div class="resource-card-select rarity-common" data-ressource="Anneau de résistance à l'herbe" data-tooltip="Qualité : Commun">
+            <img src="images/ring_of_grass_resistance.png" alt="Anneau de résistance à l'herbe">
+            <span>Anneau de résistance à l'herbe</span>
+          </div>
+		  <div class="resource-card-select rarity-uncommon" data-ressource="Anneau de résistance à l'herbe +1" data-tooltip="Qualité : Inhabituel">
+			<img src="images/ring_of_grass_resistance.png" alt="Anneau de résistance à l'herbe +1">
+			<span>Anneau de résistance à l'herbe +1</span>
+		 </div>
+		  <div class="resource-card-select rarity-rare" data-ressource="Anneau de résistance au feu" data-tooltip="Qualité : Rare">
+			<img src="images/ring_of_fire_resistance.png" alt="Anneau de résistance au feu">
+			<span>Anneau de résistance au feu</span>
+		 </div>
+          <div class="resource-card-select rarity-common" data-ressource="Anneau de résistance à la foudre" data-tooltip="Qualité : Commun">
+            <img src="images/ring_of_lightning_resistance.png" alt="Anneau de résistance à la foudre">
+            <span>Anneau de résistance à la foudre</span>
+          </div>
+          <div class="resource-card-select rarity-common" data-ressource="Anneau de résistance de glace" data-tooltip="Qualité : Commun">
+            <img src="images/ring_of_ice_resistance.png" alt="Anneau de résistance de glace">
+            <span>Anneau de résistance de glace</span>
+          </div>
+		  <div class="resource-card-select rarity-uncommon" data-ressource="Anneau de résistance de glace +1" data-tooltip="Qualité : Inhabituel">
+			<img src="images/ring_of_ice_resistance.png" alt="Anneau de résistance de glace +1">
+			<span>Anneau de résistance de glace +1</span>
+		</div>
+		  <div class="resource-card-select rarity-rare" data-ressource="Anneau de résistance de glace +2" data-tooltip="Qualité : Rare">
+            <img src="images/ring_of_ice_resistance.png" alt="Anneau de résistance de glace +2">
+            <span>Anneau de résistance de glace +2</span>
+          </div>
+          <div class="resource-card-select rarity-common" data-ressource="Anneau de résistance à la terre" data-tooltip="Qualité : Commun">
+            <img src="images/ring_of_earth_resistance.png" alt="Anneau de résistance à la terre">
+            <span>Anneau de résistance à la terre</span>
+          </div>
+		  <div class="resource-card-select rarity-uncommon" data-ressource="Anneau de résistance à la terre +1" data-tooltip="Qualité : Inhabituel">
+			<img src="images/ring_of_earth_resistance.png" alt="Anneau de résistance à la terre +1">
+			<span>Anneau de résistance à la terre +1</span>
+		  </div>
+          <div class="resource-card-select rarity-common" data-ressource="Anneau de résistance neutre" data-tooltip="Qualité : Commun">
+            <img src="images/ring_of_neutral_resistance.png" alt="Anneau de résistance neutre">
+            <span>Anneau de résistance neutre</span>
+          </div>
+          <div class="resource-card-select rarity-uncommon" data-ressource="Anneau de résistance neutre +1" data-tooltip="Qualité : Inhabituel">
+            <img src="images/ring_of_neutral_resistance.png" alt="Anneau de résistance neutre +1">
+            <span>Anneau de résistance neutre +1</span>
+          </div>
+          <div class="resource-card-select rarity-common" data-ressource="Anneau de résistance aux ténèbres" data-tooltip="Qualité : Commun">
+            <img src="images/ring_of_dark_resistance.png" alt="Anneau de résistance aux ténèbres">
+            <span>Anneau de résistance aux ténèbres</span>
+          </div>
+		  <div class="resource-card-select rarity-uncommon" data-ressource="Anneau de résistance aux ténèbres +1" data-tooltip="Qualité : Inhabituel">
+			<img src="images/ring_of_dark_resistance.png" alt="Anneau de résistance aux ténèbres +1"> 
+			<span>Anneau de résistance aux ténèbres +1</span>
+		</div>
+          <div class="resource-card-select rarity-common" data-ressource="Baies rouges" data-tooltip="Qualité : Commun">
+            <img src="images/Red_Berries.png" alt="Baies rouges">
+            <span>Baies rouges</span>
+          </div>
+		  <div class="resource-card-select rarity-common" data-ressource="Barbe à papa" data-tooltip="Qualité : Commun">
+			<img src="images/cotton_candy.png" alt="Barbe à papa">
+			<span>Barbe à papa</span>
+		</div>
+		<div class="resource-card-select rarity-common" data-ressource="Barbe à papa au caramel" data-tooltip="Qualité : Commun">
+			<img src="images/caramel_cotton_candy.png" alt="Barbe à papa au caramel">
+			<span>Barbe à papa au caramel</span>
+		</div>
+		  <div class="resource-card-select rarity-common" data-ressource="Champignon" data-tooltip="Qualité : Commun">
+            <img src="images/mushroom.png" alt="Champignon">
+            <span>Champignon</span>
+          </div>
+          <div class="resource-card-select rarity-common" data-ressource="Cuir" data-tooltip="Qualité : Commun">
+            <img src="images/leather.png" alt="Cuir">
+            <span>Cuir</span>
+          </div>
+          <div class="resource-card-select rarity-rare" data-ressource="Entrailles précieuses" data-tooltip="Qualité : Rare">
+            <img src="images/precious_entrails.png" alt="Entrailles précieuses">
+            <span>Entrailles précieuses</span>
+          </div>
+          <div class="resource-card-select rarity-common" data-ressource="Feuille de Gumoss" data-tooltip="Qualité : Commun">
+            <img src="images/gumoss_leaf.png" alt="Feuille de Gumoss">
+            <span>Feuille de Gumoss</span>
+          </div>
+		  <div class="resource-card-select rarity-common" data-ressource="Fibre" data-tooltip="Qualité : Commun">
+			<img src="images/fiber.png" alt="Fibre">
+			<span>Fibre</span>
+		</div>
+          <div class="resource-card-select rarity-common" data-ressource="Fluides Aquatic Pal" data-tooltip="Qualité : Commun">
+            <img src="images/aquatic_pal_fluids.png" alt="Fluides Aquatic Pal">
+            <span>Fluides Aquatic Pal</span>
+          </div>
+          <div class="resource-card-select rarity-common" data-ressource="Fournitures médicales de qualité inférieure" data-tooltip="Qualité : Commun">
+            <img src="images/low_grade_medical_supplies.png" alt="Fournitures médicales de qualité inférieure">
+            <span>Fournitures médicales de qualité inférieure</span>
+          </div>
+          <div class="resource-card-select rarity-common" data-ressource="Glande à venin" data-tooltip="Qualité : Commun">
+            <img src="images/venom_gland.png" alt="Glande à venin">
+            <span>Glande à venin</span>
+          </div>
+          <div class="resource-card-select rarity-common" data-ressource="Graines de baies" data-tooltip="Qualité : Commun">
+            <img src="images/berry_seeds.png" alt="Graines de baies">
+            <span>Graines de baies</span>
+          </div>
+          <div class="resource-card-select rarity-rare" data-ressource="Griffe précieuse" data-tooltip="Qualité : Rare">
+            <img src="images/precious_claw.png" alt="Griffe précieuse">
+            <span>Griffe précieuse</span>
+          </div>
+		  <div class="resource-card-select rarity-uncommon" data-ressource="Huile de Pal de haute qualité" data-tooltip="Qualité : Inhabituel">
+			<img src="images/high_quality_pal_oil.png" alt="Huile de Pal de haute qualité">
+			<span>Huile de Pal de haute qualité</span>
+		 </div>
+		 <div class="resource-card-select rarity-common" data-ressource="Tentacule de Killamari" data-tooltip="Qualité : Commun">
+			<img src="images/killamari_tentacle.png" alt="Tentacule de Killamari">
+			<span>Tentacule de Killamari</span>
+		</div>
+          <div class="resource-card-select rarity-common" data-ressource="Laine" data-tooltip="Qualité : Commun">
+            <img src="images/wool.png" alt="Laine">
+            <span>Laine</span>
+          </div>
+		  <div class="resource-card-select rarity-common" data-ressource="Lait" data-tooltip="Qualité : Commun">
+			<img src="images/milk.png" alt="Lait">
+			<span>Lait</span>
+		</div>
+          <div class="resource-card-select rarity-uncommon" data-ressource="Manuel technique de haute qualité" data-tooltip="Qualité : Inhabituel">
+            <img src="images/high_grade_technical_manual.png" alt="Manuel technique de haute qualité">
+            <span>Manuel technique de haute qualité</span>
+          </div>
+          <div class="resource-card-select rarity-common" data-ressource="Mouton de Lamball" data-tooltip="Qualité : Commun">
+            <img src="images/lamball_mutton_.png" alt="Mouton de Lamball">
+            <span>Mouton de Lamball</span>
+          </div>
+          <div class="resource-card-select rarity-common" data-ressource="Œuf" data-tooltip="Qualité : Commun">
+            <img src="images/egg.png" alt="Œuf">
+            <span>Œuf</span>
+          </div>
+          <div class="resource-card-select rarity-common" data-ressource="Organe d'allumage" data-tooltip="Qualité : Commun">
+            <img src="images/flame_organ.png" alt="Organe d'allumage">
+            <span>Organe d'allumage</span>
+          </div>
+          <div class="resource-card-select rarity-common" data-ressource="Organe de glace" data-tooltip="Qualité : Commun">
+            <img src="images/ice_organ.png" alt="Organe de glace">
+            <span>Organe de glace</span>
+          </div>
+          <div class="resource-card-select rarity-common" data-ressource="Organe électrique" data-tooltip="Qualité : Commun">
+            <img src="images/electric_organ.png" alt="Organe électrique">
+            <span>Organe électrique</span>
+          </div>
+          <div class="resource-card-select rarity-common" data-ressource="Os" data-tooltip="Qualité : Commun">
+            <img src="images/bone.png" alt="Os">
+            <span>Os</span>
+          </div>
+          <div class="resource-card-select rarity-rare" data-ressource="Parties de la civilisation ancienne" data-tooltip="Qualité : Rare">
+            <img src="images/ancient_civilization_parts.png" alt="Parties de la civilisation ancienne">
+            <span>Parties de la civilisation ancienne</span>
+          </div>
+          <div class="resource-card-select rarity-common" data-ressource="Peau précieuse" data-tooltip="Qualité : Commun">
+            <img src="images/precious-pelt.png" alt="Peau précieuse">
+            <span>Peau précieuse</span>
+          </div>
+		  <div class="resource-card-select rarity-uncommon" data-ressource="Petite âme de Pal" data-tooltip="Qualité : Inhabituel">
+            <img src="images/small_pal_soul.png" alt="Petite âme de Pal">
+            <span>Petite âme de Pal</span>
+          </div>
+		  <div class="resource-card-select rarity-common" data-ressource="Pièce d'or" data-tooltip="Qualité : Commun">
+			<img src="images/gold_coin.png" alt="Pièce d'or">
+			<span>Pièce d'or</span>
+		</div>
+          <div class="resource-card-select rarity-common" data-ressource="Plume de Penking" data-tooltip="Qualité : Commun">
+            <img src="images/penking_plume.png" alt="Plume de Penking">
+            <span>Plume de Penking</span>
+          </div>
+          <div class="resource-card-select rarity-rare" data-ressource="Plume précieuse" data-tooltip="Qualité : Rare">
+            <img src="images/precious_plume.png" alt="Plume précieuse">
+            <span>Plume précieuse</span>
+          </div>
+          <div class="resource-card-select rarity-common" data-ressource="Poulaille Chikipi" data-tooltip="Qualité : Commun">
+            <img src="images/chikipi_poultry.png" alt="Poulaille Chikipi">
+            <span>Poulaille Chikipi</span>
+          </div>
+		  <div class="resource-card-select rarity-rare" data-ressource="Rubis" data-tooltip="Qualité : Rare">
+            <img src="images/ruby.png" alt="Rubis">
+            <span>Rubis</span>
+          </div>
+		  <div class="resource-card-select rarity-rare" data-ressource="Saphir" data-tooltip="Qualité : Rare">
+			<img src="images/sapphire.png" alt="Saphir">
+			<span>Saphir</span>
+		</div>
+          <div class="resource-card-select rarity-legendary" data-ressource="Schéma de bandeau à plumes +4" data-tooltip="Qualité : Légendaire">
+            <img src="images/schematic.png" alt="Schéma de bandeau à plumes +4">
+            <span>Schéma de bandeau à plumes +4</span>
+          </div>
+		  <div class="resource-card-select rarity-legendary" data-ressource="Schéma d'arc ancien +4" data-tooltip="Qualité : Légendaire">
+            <img src="images/schematic.png" alt="Schéma d'arc ancien +4">
+            <span>Schéma d'arc ancien +4</span>
+          </div>
+		  <div class="resource-card-select rarity-uncommon" data-ressource="Sifflet de soutien Défense +1" data-tooltip="Qualité : Inhabituel">
+			<img src="images/defense_support_whistle.png" alt="Sifflet de soutien Défense +1">
+			<span>Sifflet de soutien Défense +1</span>
+		</div>
+		  <div class="resource-card-select rarity-uncommon" data-ressource="Sifflet de soutien eau +1" data-tooltip="Qualité : Inhabituel">
+			<img src="images/water_support_whistle.png" alt="Sifflet de soutien eau +1">
+			<span>Sifflet de soutien eau +1</span>
+		</div>
+          <div class="resource-card-select rarity-uncommon" data-ressource="Sifflet de soutien électrique +1" data-tooltip="Qualité : Inhabituel">
+            <img src="images/electric_support_whistle.png" alt="Sifflet de soutien électrique +1">
+            <span>Sifflet de soutien électrique +1</span>
+          </div>
+          <div class="resource-card-select rarity-uncommon" data-ressource="Sifflet de soutien feu +1" data-tooltip="Qualité : Inhabituel">
+            <img src="images/fire_support_whistle.png" alt="Sifflet de soutien feu +1">
+            <span>Sifflet de soutien feu +1</span>
+          </div>
+          <div class="resource-card-select rarity-uncommon" data-ressource="Sifflet de soutien herbe +1" data-tooltip="Qualité : Inhabituel">
+            <img src="images/grass_support_whistle.png" alt="Sifflet de soutien herbe +1">
+            <span>Sifflet de soutien herbe +1</span>
+          </div>
+		 <div class="resource-card-select rarity-uncommon" data-ressource="Sifflet de soutien neutre +1" data-tooltip="Qualité : Inhabituel">
+			 <img src="images/neutral_support_whistle.png" alt="Sifflet de soutien neutre +1">
+			 <span>Sifflet de soutien neutre +1</span>
+		 </div>
+          <div class="resource-card-select rarity-rare" data-ressource="Sifflet de soutien sombre +2" data-tooltip="Qualité : Rare">
+            <img src="images/dark_support_whistle.png" alt="Sifflet de soutien sombre +2">
+            <span>Sifflet de soutien sombre +2</span>
+          </div>
+		  <div class="resource-card-select rarity-common" data-ressource="Viande de Caprity" data-tooltip="Qualité : Commun">
+			<img src="images/caprity_meat.png" alt="Viande de Caprity"> 
+			<span>Viande de Caprity</span>
+		</div>
+		  <div class="resource-card-select rarity-common" data-ressource="Viande d'Eikthyrdeer" data-tooltip="Qualité : Commun">
+			<img src="images/eikthyrdeer_venison.png" alt="Viande d'Eikthyrdeer">
+			<span>Viande d'Eikthyrdeer</span>
+		 </div>
+		 <div class="resource-card-select rarity-common" data-ressource="Viande de Mozzarina" data-tooltip="Qualité : Commun">
+			<img src="images/mozzarina_meat.png" alt="Viande de Mozzarina">
+			<span>Viande de Mozzarina</span>
+		</div>
+		  <div class="resource-card-select rarity-common" data-ressource="Viande de Rushoar" data-tooltip="Qualité : Commun">
+			<img src="images/rushoar_pork.png" alt="Viande de Rushoar">
+			<span>Viande de Rushoar</span>
+			</div>
+        </div>
+      </div>
+	  
+      <div id="step-type-pal" class="menu-step hidden">
+        <button class="btn-retour" onclick="retourEtapeRessources()">⬅️ Retour</button>
+        <label for="type-pal-select">Type de Pal :</label>
+        <select id="type-pal-select" onchange="gererChangementTypePal()">
+          <option value="">-- Choisir le type --</option>
+          <option value="normal">🟢 Pal Normal Drops</option>
+          <option value="alpha">🔴 Pal Alpha Drops (Boss)</option>
+        </select>
+
+        <!-- 🎛️ MENU DE TRI COMPLET -->
+        <div id="tri-container" class="hidden" style="margin-top: 10px;">
+          <label for="tri-select">Trier par critère :</label>
+          <select id="tri-select" onchange="filtrerPals()">
+            <option value="best">👑 BEST (Meilleur compromis Quantité MAX + %)</option>
+            <option value="taux-max">📈 Meilleur % de drop (Taux le plus haut)</option>
+            <option value="qty-max">📦 Meilleure quantité max (Le plus de loot)</option>
+          </select>
+        </div>
+      </div>
+
+    </div>
+
+    <div id="results" class="results">
+      <div class="empty-state">Sélectionne une option ci-dessus pour afficher les résultats.</div>
+    </div>
+
+  </div>
+
+  <script>
+    let ressourceSelectionnee = "";
+
+    document.addEventListener("DOMContentLoaded", () => {
+      const cartesRessources = document.querySelectorAll(".resource-card-select");
+      
+      cartesRessources.forEach(carte => {
+        carte.addEventListener("click", () => {
+          const nomRessource = carte.getAttribute("data-ressource");
+          selectionnerRessource(nomRessource);
+        });
+      });
+    });
+
+    // 🔍 FONCTION DE FILTRE COMBINÉ (QUALITÉ + RECHERCHE TEXTUELLE DES ITEMS)
+    function filtrerRessourcesGrille() {
+      const valeurFiltreQualite = document.getElementById("filtre-qualite").value;
+      const queryItem = document.getElementById("search-item-bar").value.toLowerCase().trim();
+      const cartesRessources = document.querySelectorAll(".resource-card-select");
+
+      cartesRessources.forEach(carte => {
+        const nomRessource = carte.getAttribute("data-ressource").toLowerCase();
+        
+        const correspondQualite = (valeurFiltreQualite === "all" || carte.classList.contains(valeurFiltreQualite));
+        const correspondTexte = nomRessource.includes(queryItem);
+
+        if (correspondQualite && correspondTexte) {
+          carte.style.display = "flex";
+        } else {
+          carte.style.display = "none";
+        }
+      });
+    }
+
+    const palsDatabase = [
+      { id: 1, name: "Lamball", imgUrl: "images/lamball.png", color: "#252b33", isLucky: false, 
+	    description: "Peut être assigné à une Exploitation avec chance de produire de la <span class=\"mot-jaune\">Laine</span>.", 
+        work: { handiwork: 1, transporting: 1, farming: 1 }, 
+        normalDrops: [
+          { name: "Laine", img: "images/wool.png", qty: "x1-3", rate: "100%" },
+          { name: "Mouton de Lamball", img: "images/lamball_mutton_.png", qty: "x1", rate: "100%" }
+        ], 
+        alphaDrops: [
+          { name: "Laine", img: "images/wool.png", qty: "x1-3", rate: "100%" },
+          { name: "Peau précieuse", img: "images/precious-pelt.png", qty: "x1-2", rate: "100%" },
+          { name: "Parties de la civilisation ancienne", img: "images/ancient_civilization_parts.png", qty: "x1-2", rate: "100%" },
+          { name: "Anneau de résistance neutre", img: "images/ring_of_neutral_resistance.png", qty: "x1", rate: "5%" },
+          { name: "Mouton de Lamball", img: "images/lamball_mutton_.png", qty: "x1", rate: "100%" }
+        ] 
+      },
+      { id: 2, name: "Cattiva", imgUrl: "images/cattiva.png", color: "#252b33", isLucky: false, 
+        work: { handiwork: 1, gathering: 1, mining: 1, transporting: 1}, 
+        normalDrops: [
+          { name: "Baies rouges", img: "images/Red_Berries.png", qty: "x1", rate: "100%" }
+        ], 
+        alphaDrops: [
+          { name: "Griffe précieuse", img: "images/precious_claw.png", qty: "x1-2", rate: "100%" },
+          { name: "Parties de la civilisation ancienne", img: "images/ancient_civilization_parts.png", qty: "x1-2", rate: "100%" },
+          { name: "Anneau de résistance neutre", img: "images/ring_of_neutral_resistance.png", qty: "x1", rate: "5%" },
+          { name: "Baies rouges", img: "images/Red_Berries.png", qty: "x1", rate: "100%" }
+        ] 
+      },
+      { id: 3, name: "Chikipi", imgUrl: "images/chikipi.png", color: "#252b33", isLucky: false, 
+	    description: "à affecter à une Exploitation pour une chance d'obtenir des <span class=\"mot-jaune\">oeufs</span>.", 
+        work: { gathering: 1, farming: 1}, 
+        normalDrops: [
+          { name: "Œuf", img: "images/egg.png", qty: "x1", rate: "100%" },
+          { name: "Poulaille Chikipi", img: "images/chikipi_poultry.png", qty: "x1", rate: "100%" }
+        ], 
+        alphaDrops: [
+          { name: "Œuf", img: "images/egg.png", qty: "x1", rate: "100%" },
+		  { name: "Parties de la civilisation ancienne", img: "images/ancient_civilization_parts.png", qty: "x1-2", rate: "100%" },
+		  { name: "Plume précieuse", img: "images/precious_plume.png", qty: "x1-2", rate: "100%" },
+		  { name: "Anneau de résistance neutre", img: "images/ring_of_neutral_resistance.png", qty: "x1", rate: "5%" },
+          { name: "Poulaille Chikipi", img: "images/chikipi_poultry.png", qty: "x1", rate: "100%" }
+        ] 
+      },
+      { id: 4, name: "Lifmunk", imgUrl: "images/lifmunk.png", color: "#252b33", isLucky: false, 
+        work: { planting: 1, handiwork: 1, gathering: 1, lumbering: 1, medicine: 1 },
+        normalDrops: [
+          { name: "Fournitures médicales de qualité inférieure", img: "images/low_grade_medical_supplies.png", qty: "x1", rate: "20%" },
+		  { name: "Graines de baies", img: "images/berry_seeds.png", qty: "x1", rate: "100%" }
+        ],
+        alphaDrops: [
+          { name: "Peau précieuse", img: "images/precious-pelt.png", qty: "x1-2", rate: "100%" },
+		  { name: "Fournitures médicales de qualité inférieure", img: "images/low_grade_medical_supplies.png", qty: "x1", rate: "20%" },
+		  { name: "Parties de la civilisation ancienne", img: "images/ancient_civilization_parts.png", qty: "x1-2", rate: "100%" },
+		  { name: "Anneau de résistance à l'herbe", img: "images/ring_of_grass_resistance.png", qty: "x1", rate: "5%" },
+		  { name: "Graines de baies", img: "images/berry_seeds.png", qty: "x1", rate: "100%" }
+        ]
+      },
+      { id: 5, name: "Fuack", imgUrl: "images/fuack.png", color: "#252b33", isLucky: false, 
+        work: { watering: 1, handiwork: 1, transporting: 1 },
+        normalDrops: [
+          { name: "Cuir", img: "images/leather.png", qty: "x1", rate: "100%" },
+		  { name: "Fluides Aquatic Pal", img: "images/aquatic_pal_fluids.png", qty: "x1", rate: "100%" } 
+        ],
+        alphaDrops: [
+          { name: "Cuir", img: "images/leather.png", qty: "x2", rate: "100%" },
+		  { name: "Peau précieuse", img: "images/precious-pelt.png", qty: "x1-2", rate: "100%" },
+		  { name: "Parties de la civilisation ancienne", img: "images/ancient_civilization_parts.png", qty: "x1-2", rate: "100%" },
+		  { name: "Anneau de résistance à l'eau", img: "images/ring_of_water_resistance.png", qty: "x1", rate: "5%" },
+		  { name: "Fluides Aquatic Pal", img: "images/aquatic_pal_fluids.png", qty: "x1", rate: "100%" }
+        ]
+      },
+      { id: "5B", name: "Fuack Ignis", imgUrl: "images/fuack-ignis.png", color: "#252b33", isLucky: false, 
+        work: { kindling: 2, watering: 2, handiwork: 1, transporting: 1 },
+        normalDrops: [
+          { name: "Cuir", img: "images/leather.png", qty: "x1", rate: "100%" },
+          { name: "Fluides Aquatic Pal", img: "images/aquatic_pal_fluids.png", qty: "x1", rate: "100%" },
+          { name: "Organe d'allumage", img: "images/flame_organ.png", qty: "x1-2", rate: "50%" }
+        ],
+        alphaDrops: [
+          { name: "Parties de la civilisation ancienne", img: "images/ancient_civilization_parts.png", qty: "x2-3", rate: "100%" },
+          { name: "Cuir", img: "images/leather.png", qty: "x1", rate: "100%" },
+          { name: "Fluides Aquatic Pal", img: "images/aquatic_pal_fluids.png", qty: "x1", rate: "100%" },
+          { name: "Organe d'allumage", img: "images/flame_organ.png", qty: "x1-2", rate: "50%" },
+          { name: "Peau précieuse", img: "images/precious-pelt.png", qty: "x2-3", rate: "100%" },
+          { name: "Sifflet de soutien feu +1", img: "images/fire_support_whistle.png", qty: "x1", rate: "3%" }
+        ]
+      },
+      { id: 6, name: "Vixy", imgUrl: "images/vixy.png", color: "#252b33", isLucky: false, 
+        work: { planting: 1, gathering: 1 },
+        normalDrops: [
+          { name: "Cuir", img: "images/leather.png", qty: "x1", rate: "100%" },
+          { name: "Os", img: "images/bone.png", qty: "x1", rate: "100%" }
+        ],
+        alphaDrops: [
+          { name: "Parties de la civilisation ancienne", img: "images/ancient_civilization_parts.png", qty: "x1-2", rate: "100%" },
+          { name: "Cuir", img: "images/leather.png", qty: "x1", rate: "100%" },
+          { name: "Os", img: "images/bone.png", qty: "x1", rate: "100%" },
+          { name: "Peau précieuse", img: "images/precious-pelt.png", qty: "x1-2", rate: "100%" },
+          { name: "Anneau de résistance neutre", img: "images/ring_of_neutral_resistance.png", qty: "x1", rate: "5%" }
+        ]
+      },
+      { id: 7, name: "Celaray", imgUrl: "images/celaray.png", color: "#252b33", isLucky: false, 
+        work: { watering: 1, transporting: 1 },
+        normalDrops: [
+          { name: "Fluides Aquatic Pal", img: "images/aquatic_pal_fluids.png", qty: "x1-2", rate: "100%" }
+        ],
+        alphaDrops: [
+          { name: "Parties de la civilisation ancienne", img: "images/ancient_civilization_parts.png", qty: "x1-2", rate: "100%" },
+          { name: "Fluides Aquatic Pal", img: "images/aquatic_pal_fluids.png", qty: "x1-2", rate: "100%" },
+          { name: "Plume précieuse", img: "images/precious_plume.png", qty: "x1-2", rate: "100%" },
+          { name: "Anneau de résistance à l'eau +1", img: "images/ring_of_water_resistance.png", qty: "x1", rate: "3%" }
+        ]
+      },
+      { id: "7B", name: "Celaray Lux", imgUrl: "images/celaray-lux.png", color: "#252b33", isLucky: false, 
+        work: { watering: 1, electricity: 2, transporting: 1 },
+        normalDrops: [
+          { name: "Fluides Aquatic Pal", img: "images/aquatic_pal_fluids.png", qty: "x1-2", rate: "100%" }
+        ],
+        alphaDrops: [
+          { name: "Parties de la civilisation ancienne", img: "images/ancient_civilization_parts.png", qty: "x2-3", rate: "100%" },
+          { name: "Fluides Aquatic Pal", img: "images/aquatic_pal_fluids.png", qty: "x1-2", rate: "100%" },
+          { name: "Plume précieuse", img: "images/precious_plume.png", qty: "x2-3", rate: "100%" },
+          { name: "Sifflet de soutien électrique +1", img: "images/electric_support_whistle.png", qty: "x1", rate: "3%" }
+        ]
+      },
+      { id: 8, name: "Cremis", imgUrl: "images/cremis.png", color: "#252b33", isLucky: false, 
+        work: { gathering: 1, farming: 2 },
+        normalDrops: [
+          { name: "Laine", img: "images/wool.png", qty: "x1-2", rate: "100%" }
+        ],
+        alphaDrops: [
+          { name: "Parties de la civilisation ancienne", img: "images/ancient_civilization_parts.png", qty: "x1-2", rate: "100%" },
+          { name: "Laine", img: "images/wool.png", qty: "x1-2", rate: "100%" },
+          { name: "Peau précieuse", img: "images/precious-pelt.png", qty: "x1-2", rate: "100%" },
+          { name: "Anneau de résistance neutre", img: "images/ring_of_neutral_resistance.png", qty: "x1", rate: "5%" }
+        ]
+      },
+      { id: 9, name: "Croajiro", imgUrl: "images/croajiro.png", color: "#252b33", isLucky: false, 
+        work: { watering: 1, handiwork: 1, gathering: 1, transporting: 1 },
+        normalDrops: [
+          { name: "Fluides Aquatic Pal", img: "images/aquatic_pal_fluids.png", qty: "x1-2", rate: "100%" },
+          { name: "Tissu", img: "images/cloth.png", qty: "x1-2", rate: "25%" }
+        ],
+        alphaDrops: [
+          { name: "Parties de la civilisation ancienne", img: "images/ancient_civilization_parts.png", qty: "x2-3", rate: "100%" },
+          { name: "Fluides Aquatic Pal", img: "images/aquatic_pal_fluids.png", qty: "x1-2", rate: "100%" },
+          { name: "Tissu", img: "images/cloth.png", qty: "x1-2", rate: "25%" },
+          { name: "Entrailles précieuses", img: "images/precious_entrails.png", qty: "x2-3", rate: "100%" },
+          { name: "Anneau de fret +2", img: "images/ring_of_freight.png", qty: "x1", rate: "3%" }
+        ]
+      },
+      { id: "9B", name: "Croajiro Noct", imgUrl: "images/croajiro-noct.png", color: "#252b33", isLucky: false, 
+        work: { watering: 1, handiwork: 2, gathering: 1, transporting: 1 },
+        normalDrops: [
+          { name: "Fluides Aquatic Pal", img: "images/aquatic_pal_fluids.png", qty: "x1-2", rate: "100%" },
+          { name: "Tissu", img: "images/cloth.png", qty: "x1-2", rate: "25%" },
+          { name: "Glande à venin", img: "images/venom_gland.png", qty: "x2-4", rate: "100%" }
+        ],
+        alphaDrops: [
+          { name: "Parties de la civilisation ancienne", img: "images/ancient_civilization_parts.png", qty: "x3-4", rate: "100%" },
+          { name: "Fluides Aquatic Pal", img: "images/aquatic_pal_fluids.png", qty: "x1-2", rate: "100%" },
+          { name: "Tissu", img: "images/cloth.png", qty: "x1-2", rate: "25%" },
+          { name: "Glande à venin", img: "images/venom_gland.png", qty: "x2-4", rate: "100%" },
+          { name: "Entrailles précieuses", img: "images/precious_entrails.png", qty: "x2-3", rate: "100%" },
+          { name: "Sifflet de soutien sombre +2", img: "images/dark_support_whistle.png", qty: "x1", rate: "3%" }
+        ]
+      },
+      { id: 10, name: "Herbil", imgUrl: "images/herbil.png", color: "#252b33", isLucky: false, 
+        work: { planting: 1, gathering: 1, transporting: 1 },
+        normalDrops: [
+          { name: "Cuir", img: "images/leather.png", qty: "x1", rate: "100%" },
+          { name: "Baies rouges", img: "images/Red_Berries.png", qty: "x1-2", rate: "60%" }
+        ],
+        alphaDrops: [
+          { name: "Parties de la civilisation ancienne", img: "images/ancient_civilization_parts.png", qty: "x2-3", rate: "100%" },
+          { name: "Cuir", img: "images/leather.png", qty: "x1", rate: "100%" },
+          { name: "Baies rouges", img: "images/Red_Berries.png", qty: "x1-2", rate: "60%" },
+          { name: "Peau précieuse", img: "images/precious-pelt.png", qty: "x2-3", rate: "100%" },
+          { name: "Sifflet de soutien herbe +1", img: "images/grass_support_whistle.png", qty: "x1", rate: "3%" }
+        ]
+      },
+      { id: 11, name: "Teafant", imgUrl: "images/teafant.png", color: "#252b33", isLucky: false, 
+        work: { watering: 1 },
+        normalDrops: [
+          { name: "Fluides Aquatic Pal", img: "images/aquatic_pal_fluids.png", qty: "x1", rate: "100%" }
+        ],
+        alphaDrops: [
+          { name: "Parties de la civilisation ancienne", img: "images/ancient_civilization_parts.png", qty: "x1-2", rate: "100%" },
+          { name: "Fluides Aquatic Pal", img: "images/aquatic_pal_fluids.png", qty: "x1", rate: "100%" },
+          { name: "Entrailles précieuses", img: "images/precious_entrails.png", qty: "x1-2", rate: "100%" },
+          { name: "Anneau de résistance à l'eau", img: "images/ring_of_water_resistance.png", qty: "x1", rate: "5%" }
+        ]
+      },
+      { id: 12, name: "Gumoss", imgUrl: "images/gumoss.png", color: "#252b33", isLucky: false, 
+        work: { planting: 1 },
+        normalDrops: [
+          { name: "Graines de baies", img: "images/berry_seeds.png", qty: "x1", rate: "100%" },
+          { name: "Feuille de Gumoss", img: "images/gumoss_leaf.png", qty: "x1", rate: "50%" }
+        ],
+        alphaDrops: [
+          { name: "Parties de la civilisation ancienne", img: "images/ancient_civilization_parts.png", qty: "x1", rate: "100%" },
+          { name: "Graines de baies", img: "images/berry_seeds.png", qty: "x1", rate: "100%" },
+          { name: "Feuille de Gumoss", img: "images/gumoss_leaf.png", qty: "x1", rate: "50%" },
+          { name: "Entrailles précieuses", img: "images/precious_entrails.png", qty: "x2", rate: "100%" },
+          { name: "Anneau de résistance à la terre", img: "images/ring_of_earth_resistance.png", qty: "x1", rate: "5%" }
+        ]
+      },
+      { id: 13, name: "Pupperai", imgUrl: "images/pupperai.png", color: "#252b33", isLucky: false, 
+        work: { gathering: 1, logging: 1, transporting: 1 },
+        normalDrops: [
+          { name: "Os", img: "images/bone.png", qty: "x1", rate: "100%" }
+        ],
+        alphaDrops: [
+          { name: "Parties de la civilisation ancienne", img: "images/ancient_civilization_parts.png", qty: "x1-2", rate: "100%" },
+          { name: "Os", img: "images/bone.png", qty: "x1", rate: "100%" },
+          { name: "Peau précieuse", img: "images/precious_pelt.png", qty: "x2-3", rate: "100%" }
+        ]
+      },
+     { id: 14, name: "Clovee", imgUrl: "images/clovee.png", color: "#252b33", isLucky: false, 
+        description: "Lorsque le Pal est affecté à une base, augmente d'un niveau (+1) l'aptitude au travail de <span class=\"mot-jaune\">collecte</span> de tous les autres Pals de la base. (Ne se cumule pas)", 
+        work: { planting: 1, gathering: 1 },
+        normalDrops: [
+          { name: "Graines de baies", img: "images/berry_seeds.png", qty: "x1-2", rate: "100%" }
+        ],
+        alphaDrops: [
+          { name: "Parties de la civilisation ancienne", img: "images/ancient_civilization_parts.png", qty: "x1-2", rate: "100%" },
+          { name: "Peau précieuse", img: "images/precious_pelt.png", qty: "x2-3", rate: "100%" }
+        ]
+      },
+	  { id: 15, name: "Jolthog", imgUrl: "images/jolthog.png", color: "#252b33", isLucky: false, 
+        work: { electricity: 1 },
+        normalDrops: [
+          { name: "Organe électrique", img: "images/electric_organ.png", qty: "x1", rate: "100%" }
+        ],
+        alphaDrops: [
+          { name: "Parties de la civilisation ancienne", img: "images/ancient_civilization_parts.png", qty: "x1-2", rate: "100%" },
+          { name: "Organe électrique", img: "images/electric_organ.png", qty: "x1", rate: "100%" },
+          { name: "Griffe précieuse", img: "images/precious_claw.png", qty: "x1-2", rate: "100%" },
+          { name: "Anneau de résistance à la foudre", img: "images/ring_of_lightning_resistance.png", qty: "x1", rate: "5%" }
+        ]
+      },
+	  { id: "015B", name: "Jolthog Cryst", imgUrl: "images/jolthog_cryst.png", color: "#252b33", isLucky: false, 
+        work: { cooling: 1 },
+        normalDrops: [
+          { name: "Organe de glace", img: "images/ice_organ.png", qty: "x1", rate: "100%" }
+        ],
+        alphaDrops: [
+          { name: "Parties de la civilisation ancienne", img: "images/ancient_civilization_parts.png", qty: "x1-2", rate: "100%" },
+          { name: "Organe de glace", img: "images/ice_organ.png", qty: "x1", rate: "100%" },
+          { name: "Griffe précieuse", img: "images/precious_claw.png", qty: "x1-2", rate: "100%" },
+          { name: "Anneau de résistance de glace", img: "images/ring_of_ice_resistance.png", qty: "x1", rate: "5%" }
+        ]
+      },
+	  { id: 16, name: "Depresso", imgUrl: "images/depresso.png", color: "#252b33", isLucky: false, 
+        work: { handiwork: 1, mining: 1, transporting: 1, farming: 1 },
+        normalDrops: [
+          { name: "Glande à venin", img: "images/venom_gland.png", qty: "x2-3", rate: "100%" }
+        ],
+        alphaDrops: [
+          { name: "Parties de la civilisation ancienne", img: "images/ancient_civilization_parts.png", qty: "x1-2", rate: "100%" },
+          { name: "Glande à venin", img: "images/venom_gland.png", qty: "x2-3", rate: "100%" },
+          { name: "Peau précieuse", img: "images/precious_pelt.png", qty: "x1-2", rate: "100%" },
+          { name: "Anneau de résistance aux ténèbres", img: "images/ring_of_dark_resistance.png", qty: "x1", rate: "5%" }
+        ]
+      },
+	  { id: 17, name: "Pengullet", imgUrl: "images/pengullet.png", color: "#252b33", isLucky: false, 
+        work: { watering: 1, handiwork: 1, cooling: 1, transporting: 1 },
+        normalDrops: [
+          { name: "Organe de glace", img: "images/ice_organ.png", qty: "x1-2", rate: "100%" },
+          { name: "Fluide de Pal", img: "images/pal_fluids.png", qty: "x1", rate: "100%" }
+        ],
+        alphaDrops: [
+          { name: "Parties de la civilisation ancienne", img: "images/ancient_civilization_parts.png", qty: "x1-2", rate: "100%" },
+          { name: "Organe de glace", img: "images/ice_organ.png", qty: "x1-2", rate: "100%" },
+          { name: "Fluide de Pal", img: "images/pal_fluids.png", qty: "x1", rate: "100%" },
+          { name: "Peau précieuse", img: "images/precious_pelt.png", qty: "x1-2", rate: "100%" },
+          { name: "Anneau de résistance à l'eau", img: "images/ring_of_water_resistance.png", qty: "x1", rate: "5%" }
+        ]
+      },
+	  { id: "017B", name: "Pengullet Lux", imgUrl: "images/pengullet_lux.png", color: "#252b33", isLucky: false, 
+        work: { watering: 1, electricity: 2, handiwork: 1, transporting: 1 },
+        normalDrops: [
+          { name: "Organe électrique", img: "images/electric_organ.png", qty: "x1-2", rate: "100%" },
+          { name: "Fluide de Pal", img: "images/pal_fluids.png", qty: "x1", rate: "100%" }
+        ],
+        alphaDrops: [
+          { name: "Parties de la civilisation ancienne", img: "images/ancient_civilization_parts.png", qty: "x2-3", rate: "100%" },
+          { name: "Organe électrique", img: "images/electric_organ.png", qty: "x1-2", rate: "100%" },
+          { name: "Fluide de Pal", img: "images/pal_fluids.png", qty: "x1", rate: "100%" },
+          { name: "Peau précieuse", img: "images/precious_pelt.png", qty: "x2-3", rate: "100%" },
+          { name: "Sifflet de soutien électrique +1", img: "images/electric_support_whistle_1.png", qty: "x1", rate: "3%" }
+        ]
+      },
+	  { id: 18, name: "Penking", imgUrl: "images/penking.png", color: "#252b33", isLucky: false, 
+        work: { watering: 2, handiwork: 2, mining: 3, cooling: 2, transporting: 3 },
+        normalDrops: [
+          { name: "Organe de glace", img: "images/ice_organ.png", qty: "x1-3", rate: "100%" },
+          { name: "Plume de Penking", img: "images/penking_plume.png", qty: "x1", rate: "50%" }
+        ],
+        alphaDrops: [
+          { name: "Parties de la civilisation ancienne", img: "images/ancient_civilization_parts.png", qty: "x2-3", rate: "100%" },
+          { name: "Organe de glace", img: "images/ice_organ.png", qty: "x1-3", rate: "100%" },
+          { name: "Plume de Penking", img: "images/penking_plume.png", qty: "x1", rate: "50%" },
+          { name: "Peau précieuse", img: "images/precious_pelt.png", qty: "x2-3", rate: "100%" },
+          { name: "Schéma de bandeau à plumes +4", img: "images/schematic.png", qty: "x1", rate: "3%" },
+          { name: "Anneau de fret +1", img: "images/ring_of_freight_1.png", qty: "x1", rate: "2%" }
+        ]
+      },
+	  { id: "018B", name: "Penking Lux", imgUrl: "images/penking_lux.png", color: "#252b33", isLucky: false, 
+        work: { watering: 2, electricity: 2, handiwork: 2, mining: 2, transporting: 2 },
+        normalDrops: [
+          { name: "Organe électrique", img: "images/electric_organ.png", qty: "x1-3", rate: "100%" },
+          { name: "Plume de Penking", img: "images/penking_plume.png", qty: "x1", rate: "50%" }
+        ],
+        alphaDrops: [
+          { name: "Parties de la civilisation ancienne", img: "images/ancient_civilization_parts.png", qty: "x2-3", rate: "100%" },
+          { name: "Organe électrique", img: "images/electric_organ.png", qty: "x1-3", rate: "100%" },
+          { name: "Plume de Penking", img: "images/penking_plume.png", qty: "x1", rate: "50%" },
+          { name: "Entrailles précieuses", img: "images/precious_entrails.png", qty: "x2-3", rate: "100%" },
+          { name: "Sifflet de soutien électrique +1", img: "images/electric_support_whistle_1.png", qty: "x1", rate: "3%" }
+        ]
+      },
+	  { id: 19, name: "Hoocrates", imgUrl: "images/hoocrates.png", color: "#252b33", isLucky: false, 
+        work: { gathering: 1 },
+        normalDrops: [
+          { name: "Fibre", img: "images/fiber.png", qty: "x5-10", rate: "100%" },
+          { name: "Manuel technique de haute qualité", img: "images/high_grade_technical_manual.png", qty: "x1", rate: "1%" }
+        ],
+        alphaDrops: [
+          { name: "Parties de la civilisation ancienne", img: "images/ancient_civilization_parts.png", qty: "x1-3", rate: "100%" },
+          { name: "Fibre", img: "images/fiber.png", qty: "x5-10", rate: "100%" },
+          { name: "Manuel technique de haute qualité", img: "images/high_grade_technical_manual.png", qty: "x1", rate: "1%" },
+          { name: "Plume précieuse", img: "images/precious_plume.png", qty: "x1-3", rate: "100%" },
+          { name: "Anneau de résistance aux ténèbres", img: "images/ring_of_dark_resistance.png", qty: "x1", rate: "5%" }
+        ]
+      },
+	  { id: 20, name: "Melpaca", imgUrl: "images/melpaca.png", color: "#252b33", isLucky: false, 
+        work: { farming: 2 },
+        normalDrops: [
+          { name: "Laine", img: "images/wool.png", qty: "x2-5", rate: "100%" },
+          { name: "Cuir", img: "images/leather.png", qty: "x1", rate: "100%" }
+        ],
+        alphaDrops: [
+          { name: "Parties de la civilisation ancienne", img: "images/ancient_civilization_parts.png", qty: "x1-2", rate: "100%" },
+          { name: "Laine", img: "images/wool.png", qty: "x2-5", rate: "100%" },
+          { name: "Cuir", img: "images/leather.png", qty: "x1", rate: "100%" },
+          { name: "Peau précieuse", img: "images/precious_pelt.png", qty: "x1-2", rate: "100%" },
+          { name: "Anneau de résistance neutre +1", img: "images/ring_of_neutral_resistance_1.png", qty: "x1", rate: "3%" }
+        ]
+      },
+	  { id: 21, name: "Kingpaca", imgUrl: "images/kingpaca.png", color: "#252b33", isLucky: false, 
+        work: { gathering: 1 },
+        normalDrops: [
+          { name: "Laine", img: "images/wool.png", qty: "x5", rate: "100%" }
+        ],
+        alphaDrops: [
+          { name: "Parties de la civilisation ancienne", img: "images/ancient_civilization_parts.png", qty: "x1-3", rate: "100%" },
+          { name: "Laine", img: "images/wool.png", qty: "x5", rate: "100%" },
+          { name: "Peau précieuse", img: "images/precious_pelt.png", qty: "x1-3", rate: "100%" },
+          { name: "Schéma d'arc ancien +4", img: "images/schematic.png", qty: "x1", rate: "3%" }
+        ]
+      },
+	  { id: "21B", name: "Kingpaca Cryst", imgUrl: "images/kingpaca_cryst.png", color: "#252b33", isLucky: false, 
+        work: { gathering: 2, cooling: 4 },
+        normalDrops: [
+          { name: "Laine", img: "images/wool.png", qty: "x5", rate: "100%" },
+          { name: "Organe de glace", img: "images/ice_organ.png", qty: "x3-6", rate: "100%" }
+        ],
+        alphaDrops: [
+          { name: "Parties de la civilisation ancienne", img: "images/ancient_civilization_parts.png", qty: "x1-3", rate: "100%" },
+          { name: "Laine", img: "images/wool.png", qty: "x5", rate: "100%" },
+          { name: "Organe de glace", img: "images/ice_organ.png", qty: "x3-6", rate: "100%" },
+          { name: "Peau précieuse", img: "images/precious_pelt.png", qty: "x1-3", rate: "100%" },
+          { name: "Anneau de résistance de glace +2", img: "images/ring_of_ice_resistance_2.png", qty: "x1", rate: "1%" }
+        ]
+      },
+	  { id: 22, name: "Daedream", imgUrl: "images/daedream.png", color: "#252b33", isLucky: false, 
+        work: { handiwork: 1, gathering: 1, transporting: 1 },
+        normalDrops: [
+          { name: "Glande à venin", img: "images/venom_gland.png", qty: "x1", rate: "100%" },
+          { name: "Petite âme de Pal", img: "images/small_pal_soul.png", qty: "x1", rate: "1%" }
+        ],
+        alphaDrops: [
+          { name: "Parties de la civilisation ancienne", img: "images/ancient_civilization_parts.png", qty: "x1-3", rate: "100%" },
+          { name: "Glande à venin", img: "images/venom_gland.png", qty: "x1", rate: "100%" },
+          { name: "Petite âme de Pal", img: "images/small_pal_soul.png", qty: "x1", rate: "1%" },
+          { name: "Peau précieuse", img: "images/precious_pelt.png", qty: "x1-3", rate: "100%" },
+          { name: "Anneau de résistance aux ténèbres", img: "images/ring_of_dark_resistance.png", qty: "x1", rate: "5%" }
+        ]
+      },
+	  { id: 23, name: "Tanzee", imgUrl: "images/tanzee.png", color: "#252b33", isLucky: false, 
+        work: { planting: 1, handiwork: 1, lumbering: 1, gathering: 1, transporting: 1 },
+        normalDrops: [
+          { name: "Champignon", img: "images/mushroom.png", qty: "x1", rate: "100%" }
+        ],
+        alphaDrops: [
+          { name: "Parties de la civilisation ancienne", img: "images/ancient_civilization_parts.png", qty: "x1-2", rate: "100%" },
+          { name: "Champignon", img: "images/mushroom.png", qty: "x1", rate: "100%" },
+          { name: "Griffe précieuse", img: "images/precious_claw.png", qty: "x1-2", rate: "100%" },
+          { name: "Anneau de résistance à l'herbe", img: "images/ring_of_grass_resistance.png", qty: "x1", rate: "5%" }
+        ]
+      },
+	  { id: "23B", name: "Tanzee Ignis", imgUrl: "images/tanzee_ignis.png", color: "#252b33", isLucky: false, 
+        work: { kindling: 1, handiwork: 1, lumbering: 1, transporting: 1 },
+        normalDrops: [
+          { name: "Champignon", img: "images/mushroom.png", qty: "x1", rate: "100%" },
+          { name: "Organe d'allumage", img: "images/flame_organ.png", qty: "x1-2", rate: "100%" }
+        ],
+        alphaDrops: [
+          { name: "Parties de la civilisation ancienne", img: "images/ancient_civilization_parts.png", qty: "x1-2", rate: "100%" },
+          { name: "Entrailles précieuses", img: "images/precious_entrails.png", qty: "x2-3", rate: "100%" }
+        ]
+      },
+	  { id: 24, name: "Nox", imgUrl: "images/nox.png", color: "#252b33", isLucky: false, 
+        work: { gathering: 1 },
+        normalDrops: [
+          { name: "Cuir", img: "images/leather.png", qty: "x1", rate: "100%" },
+          { name: "Petite âme de Pal", img: "images/small_pal_soul.png", qty: "x1", rate: "40%" }
+        ],
+        alphaDrops: [
+          { name: "Parties de la civilisation ancienne", img: "images/ancient_civilization_parts.png", qty: "x2-3", rate: "100%" },
+          { name: "Cuir", img: "images/leather.png", qty: "x1", rate: "100%" },
+          { name: "Petite âme de Pal", img: "images/small_pal_soul.png", qty: "x1", rate: "40%" },
+          { name: "Peau précieuse", img: "images/precious_pelt.png", qty: "x2-3", rate: "100%" },
+          { name: "Anneau de résistance neutre", img: "images/ring_of_neutral_resistance.png", qty: "x1", rate: "5%" }
+        ]
+      },
+	  { id: 25, name: "Flambelle", imgUrl: "images/flambelle.png", color: "#252b33", isLucky: false,
+	    description: "Parfois produit un <span class=\"mot-jaune\">Organe de feu</span> lorsqu'assigné à un Ranch.",
+        work: { kindling: 1, handiwork: 1, transporting: 1, farming: 1 },
+        normalDrops: [
+          { name: "Organe de feu", img: "images/flame_organ.png", qty: "x2-3", rate: "100%" },
+          { name: "Huile de Pal de haute qualité", img: "images/high_quality_pal_oil.png", qty: "x1", rate: "100%" }
+        ],
+        alphaDrops: [
+          { name: "Parties de la civilisation ancienne", img: "images/ancient_civilization_parts.png", qty: "x1-3", rate: "100%" },
+          { name: "Organe de feu", img: "images/flame_organ.png", qty: "x2-3", rate: "100%" },
+          { name: "Huile de Pal de haute qualité", img: "images/high_quality_pal_oil.png", qty: "x1", rate: "100%" },
+          { name: "Entrailles précieuses", img: "images/precious_entrails.png", qty: "x1-3", rate: "100%" },
+          { name: "Anneau de résistance à la terre", img: "images/ring_of_earth_resistance.png", qty: "x1", rate: "5%" }
+        ]
+      },
+	  { id: 26, name: "Rooby", imgUrl: "images/rooby.png", color: "#252b33", isLucky: false,
+        work: { kindling: 1, transporting: 1 },
+        normalDrops: [
+          { name: "Organe de feu", img: "images/flame_organ.png", qty: "x2-3", rate: "100%" },
+          { name: "Cuir", img: "images/leather.png", qty: "x1", rate: "100%" }
+        ],
+        alphaDrops: [
+          { name: "Parties de la civilisation ancienne", img: "images/ancient_civilization_parts.png", qty: "x1-3", rate: "100%" },
+          { name: "Organe de feu", img: "images/flame_organ.png", qty: "x2-3", rate: "100%" },
+          { name: "Cuir", img: "images/leather.png", qty: "x1", rate: "100%" },
+          { name: "Fourrure précieuse", img: "images/precious_pelt.png", qty: "x1-3", rate: "100%" },
+          { name: "Anneau de résistance à la terre", img: "images/ring_of_earth_resistance.png", qty: "x1", rate: "5%" }
+        ]
+      },
+	  { id: 27, name: "Mau", imgUrl: "images/mau.png", color: "#252b33", isLucky: false,
+	    description: "Parfois déterre une <span class=\"mot-jaune\">Pièce d'or</span> lorsqu'assigné à un ranch.",
+        work: { farming: 1, gathering: 1 },
+        normalDrops: [
+          { name: "Pièce d'or", img: "images/gold_coin.png", qty: "x100-200", rate: "50%" }
+        ],
+        alphaDrops: [
+          { name: "Parties de la civilisation ancienne", img: "images/ancient_civilization_parts.png", qty: "x1-2", rate: "100%" },
+          { name: "Pièce d'or", img: "images/gold_coin.png", qty: "x100-200", rate: "50%" },
+          { name: "Griffe précieuse", img: "images/precious_claw.png", qty: "x1-2", rate: "100%" },
+          { name: "Anneau de résistance aux ténèbres", img: "images/ring_of_dark_resistance.png", qty: "x1", rate: "5%" }
+        ]
+      },
+	  { id: "027B", name: "Mau Cryst", imgUrl: "images/mau_cryst.png", color: "#252b33", isLucky: false,
+	    description: "Parfois déterre une <span class=\"mot-jaune\">Pièce d'or</span> lorsqu'assigné à un ranch.",
+        work: { cooling: 1, farming: 1 },
+        normalDrops: [
+          { name: "Flocon de givre", img: "images/ice_organ.png", qty: "x1-2", rate: "100%" },
+          { name: "Saphir", img: "images/sapphire.png", qty: "x1", rate: "1%" }
+        ],
+        alphaDrops: [
+          { name: "Parties de la civilisation ancienne", img: "images/ancient_civilization_parts.png", qty: "x2-3", rate: "100%" },
+          { name: "Flocon de givre", img: "images/ice_organ.png", qty: "x1-2", rate: "100%" },
+          { name: "Saphir", img: "images/sapphire.png", qty: "x1", rate: "1%" },
+          { name: "Griffe précieuse", img: "images/precious_claw.png", qty: "x2-3", rate: "100%" },
+          { name: "Anneau de résistance à la glace", img: "images/ring_of_ice_resistance.png", qty: "x1", rate: "5%" }
+        ]
+      },
+	  { id: 028, name: "Rushoar", imgUrl: "images/rushoar.png", color: "#252b33", isLucky: false,
+        work: { mining: 1 },
+        normalDrops: [
+          { name: "Viande de Rushoar", img: "images/rushoar_pork.png", qty: "x1-2", rate: "100%" },
+          { name: "Cuir", img: "images/leather.png", qty: "x1", rate: "100%" },
+          { name: "Os", img: "images/bone.png", qty: "x1", rate: "100%" }
+        ],
+        alphaDrops: [
+          { name: "Parties de la civilisation ancienne", img: "images/ancient_civilization_parts.png", qty: "x1-2", rate: "100%" },
+          { name: "Viande de Rushoar", img: "images/rushoar_pork.png", qty: "x1-2", rate: "100%" },
+          { name: "Cuir", img: "images/leather.png", qty: "x1", rate: "100%" },
+          { name: "Griffe précieuse", img: "images/precious_claw.png", qty: "x1-2", rate: "100%" },
+          { name: "Anneau de résistance à la terre", img: "images/ring_of_earth_resistance.png", qty: "x1", rate: "5%" }
+        ]
+      },
+	  { id: 029, name: "Foxparks", imgUrl: "images/foxparks.png", color: "#252b33", isLucky: false,
+        work: { kindling: 1 },
+        normalDrops: [
+          { name: "Cuir", img: "images/leather.png", qty: "x1", rate: "100%" },
+          { name: "Organe inflammable", img: "images/flame_organ.png", qty: "x1-2", rate: "100%" }
+        ],
+        alphaDrops: [
+          { name: "Parties de la civilisation ancienne", img: "images/ancient_civilization_parts.png", qty: "x1-2", rate: "100%" },
+          { name: "Cuir", img: "images/leather.png", qty: "x1", rate: "100%" },
+          { name: "Organe inflammable", img: "images/flame_organ.png", qty: "x1-2", rate: "100%" },
+          { name: "Fourrure précieuse", img: "images/precious_pelt.png", qty: "x1-2", rate: "100%" },
+          { name: "Anneau de résistance au feu", img: "images/ring_of_fire_resistance.png", qty: "x1", rate: "5%" }
+        ]
+      },
+	  { id: "029B", name: "Foxparks Cryst", imgUrl: "images/foxparks_cryst.png", color: "#252b33", isLucky: false,
+        work: { cooling: 2 },
+        normalDrops: [
+          { name: "Cuir", img: "images/leather.png", qty: "x1-2", rate: "100%" },
+          { name: "Flocon de givre", img: "images/ice_organ.png", qty: "x1-3", rate: "100%" }
+        ],
+        alphaDrops: [
+          { name: "Parties de la civilisation ancienne", img: "images/ancient_civilization_parts.png", qty: "x3-5", rate: "100%" },
+          { name: "Cuir", img: "images/leather.png", qty: "x1-2", rate: "100%" },
+          { name: "Flocon de givre", img: "images/ice_organ.png", qty: "x1-3", rate: "100%" },
+          { name: "Fourrure précieuse", img: "images/precious_pelt.png", qty: "x2-3", rate: "100%" },
+          { name: "Anneau de résistance à la glace +1", img: "images/ring_of_ice_resistance.png", qty: "x1", rate: "3%" }
+        ]
+      },
+	  { id: 030, name: "Killamari", imgUrl: "images/killamari.png", color: "#252b33", isLucky: false,
+	    description: "En équipe, modifie les performances du deltaplane équipé. Permet une descente en douceur lors du vol plané pendant une période prolongée.",
+        work: { watering: 1, gathering: 1, transporting: 2 },
+        normalDrops: [
+          { name: "Glande de venin", img: "images/venom_gland.png", qty: "x2-4", rate: "100%" },
+          { name: "Tentacule de Killamari", img: "images/killamari_tentacle.png", qty: "x1", rate: "50%" }
+        ],
+        alphaDrops: [
+          { name: "Parties de la civilisation ancienne", img: "images/ancient_civilization_parts.png", qty: "x1-2", rate: "100%" },
+          { name: "Glande de venin", img: "images/venom_gland.png", qty: "x2-4", rate: "100%" },
+          { name: "Tentacule de Killamari", img: "images/killamari_tentacle.png", qty: "x1", rate: "50%" },
+          { name: "Fourrure précieuse", img: "images/precious_pelt.png", qty: "x1-2", rate: "100%" },
+          { name: "Anneau de résistance aux ténèbres", img: "images/ring_of_dark_resistance.png", qty: "x1", rate: "5%" }
+        ]
+      },
+	  { id: "030B", name: "Killamari Primo", imgUrl: "images/killamari_primo.png", color: "#252b33", isLucky: false,
+        work: { watering: 1, gathering: 1, transporting: 2 },
+        normalDrops: [
+          { name: "Fluide de Pal", img: "images/pal_fluids.png", qty: "x1-2", rate: "100%" },
+          { name: "Tentacule de Killamari", img: "images/killamari_tentacle.png", qty: "x1", rate: "50%" }
+        ],
+        alphaDrops: [
+          { name: "Parties de la civilisation ancienne", img: "images/ancient_civilization_parts.png", qty: "x2-3", rate: "100%" },
+          { name: "Fluide de Pal", img: "images/pal_fluids.png", qty: "x1-2", rate: "100%" },
+          { name: "Tentacule de Killamari", img: "images/killamari_tentacle.png", qty: "x1", rate: "50%" },
+          { name: "Fourrure précieuse", img: "images/precious_pelt.png", qty: "x2-3", rate: "100%" },
+          { name: "Sifflet de soutien neutre +1", img: "images/neutral_support_whistle.png", qty: "x1", rate: "3%" }
+        ]
+      },
+	  { id: 031, name: "Fuddler", imgUrl: "images/fuddler.png", color: "#252b33", isLucky: false,
+        work: { handiwork: 1, mining: 1, transporting: 1 },
+        normalDrops: [
+          { name: "Cuir", img: "images/leather.png", qty: "x1-2", rate: "100%" }
+        ],
+        alphaDrops: [
+          { name: "Parties de la civilisation ancienne", img: "images/ancient_civilization_parts.png", qty: "x1-2", rate: "100%" },
+          { name: "Cuir", img: "images/leather.png", qty: "x1-2", rate: "100%" },
+          { name: "Griffe précieuse", img: "images/precious_claw.png", qty: "x1-2", rate: "100%" },
+          { name: "Anneau de résistance à la terre", img: "images/ring_of_earth_resistance.png", qty: "x1", rate: "5%" }
+        ]
+      },
+	  { id: 032, name: "Eikthyrdeer", imgUrl: "images/eikthyrdeer.png", color: "#252b33", isLucky: false,
+        work: { lumbering: 2 },
+        normalDrops: [
+          { name: "Viande d'Eikthyrdeer", img: "images/eikthyrdeer_venison.png", qty: "x2", rate: "100%" },
+          { name: "Cuir", img: "images/leather.png", qty: "x2-3", rate: "100%" },
+          { name: "Corne", img: "images/horn.png", qty: "x2", rate: "100%" }
+        ],
+        alphaDrops: [
+          { name: "Parties de la civilisation ancienne", img: "images/ancient_civilization_parts.png", qty: "x1-2", rate: "100%" },
+          { name: "Viande d'Eikthyrdeer", img: "images/eikthyrdeer_venison.png", qty: "x2", rate: "100%" },
+          { name: "Cuir", img: "images/leather.png", qty: "x2-3", rate: "100%" },
+          { name: "Fourrure précieuse", img: "images/precious_pelt.png", qty: "x1-2", rate: "100%" },
+          { name: "Anneau de résistance neutre +1", img: "images/ring_of_neutral_resistance.png", qty: "x1", rate: "3%" }
+        ]
+      },
+	  { id: "032B", name: "Eikthyrdeer Terra", imgUrl: "images/eikthyrdeer_terra.png", color: "#252b33", isLucky: false,
+        work: { lumbering: 2 },
+        normalDrops: [
+          { name: "Viande d'Eikthyrdeer", img: "images/eikthyrdeer_venison.png", qty: "x2", rate: "100%" },
+          { name: "Cuir", img: "images/leather.png", qty: "x2-3", rate: "100%" },
+          { name: "Corne", img: "images/horn.png", qty: "x2", rate: "100%" }
+        ],
+        alphaDrops: [
+          { name: "Parties de la civilisation ancienne", img: "images/ancient_civilization_parts.png", qty: "x1-2", rate: "100%" },
+          { name: "Viande d'Eikthyrdeer", img: "images/eikthyrdeer_venison.png", qty: "x2", rate: "100%" },
+          { name: "Cuir", img: "images/leather.png", qty: "x2-3", rate: "100%" },
+          { name: "Fourrure précieuse", img: "images/precious_pelt.png", qty: "x1-2", rate: "100%" },
+          { name: "Anneau de résistance à la terre +1", img: "images/ring_of_earth_resistance.png", qty: "x1", rate: "3%" }
+        ]
+		  },
+		  { id: 33, name: "Direhowl", imgUrl: "images/direhowl.png", color: "#252b33", isLucky: false,
+		work: { gathering: 1 },
+		normalDrops: [
+		  { name: "Cuir", img: "images/leather.png", qty: "x1-2", rate: "100%" },
+		  { name: "Rubis", img: "images/ruby.png", qty: "x1", rate: "3%" },
+		  { name: "Pièce d'or", img: "images/gold_coin.png", qty: "x10-20", rate: "3%" }
+		],
+		alphaDrops: [
+		  { name: "Parties de la civilisation ancienne", img: "images/ancient_civilization_parts.png", qty: "x1-2", rate: "100%" },
+		  { name: "Cuir", img: "images/leather.png", qty: "x1-2", rate: "100%" },
+		  { name: "Rubis", img: "images/ruby.png", qty: "x1", rate: "3%" },
+		  { name: "Griffe précieuse", img: "images/precious_claw.png", qty: "x1-2", rate: "100%" },
+		  { name: "Anneau de résistance neutre", img: "images/ring_of_neutral_resistance.png", qty: "x1", rate: "5%" }
+		]
+	  },
+		{ id: 34, name: "Caprity", imgUrl: "images/caprity.png", color: "#252b33", isLucky: false,
+		work: { planting: 2, farming: 1 },
+		normalDrops: [
+		  { name: "Viande de Caprity", img: "images/caprity_meat.png", qty: "x2", rate: "100%" },
+		  { name: "Baies rouges", img: "images/red_berries.png", qty: "x2-4", rate: "100%" },
+		  { name: "Corne", img: "images/horn.png", qty: "x1-2", rate: "100%" }
+		],
+		alphaDrops: [
+		  { name: "Parties de la civilisation ancienne", img: "images/ancient_civilization_parts.png", qty: "x1-2", rate: "100%" },
+		  { name: "Viande de Caprity", img: "images/caprity_meat.png", qty: "x2", rate: "100%" },
+		  { name: "Baies rouges", img: "images/red_berries.png", qty: "x2-4", rate: "100%" },
+		  { name: "Peau précieuse", img: "images/precious_pelt.png", qty: "x1-2", rate: "100%" },
+		  { name: "Anneau de résistance à l'herbe +1", img: "images/ring_of_grass_resistance.png", qty: "x1", rate: "3%" }
+		]
+	  },
+		{ id: "034B", name: "Caprity Noct", imgUrl: "images/caprity_noct.png", color: "#252b33", isLucky: false,
+		work: { planting: 2, farming: 1 },
+		normalDrops: [
+			{ name: "Viande de Caprity", img: "images/caprity_meat.png", qty: "x2", rate: "100%" },
+			{ name: "Baies rouges", img: "images/red_berries.png", qty: "x2-4", rate: "100%" },
+			{ name: "Corne", img: "images/horn.png", qty: "x1-2", rate: "100%" },
+			{ name: "Glande de venin", img: "images/venom_gland.png", qty: "x1", rate: "100%" }
+		],
+		alphaDrops: [
+			{ name: "Parties de la civilisation ancienne", img: "images/ancient_civilization_parts.png", qty: "x4-6", rate: "100%" },
+			{ name: "Viande de Caprity", img: "images/caprity_meat.png", qty: "x2", rate: "100%" },
+			{ name: "Baies rouges", img: "images/red_berries.png", qty: "x2-4", rate: "100%" },
+			{ name: "Corne", img: "images/horn.png", qty: "x1-2", rate: "100%" },
+			{ name: "Peau précieuse", img: "images/precious_pelt.png", qty: "x2-3", rate: "100%" },
+			{ name: "Anneau de résistance à l'ombre +1", img: "images/ring_of_dark_resistance.png", qty: "x1", rate: "3%" }
+		]
+	},
+		{ id: 035, name: "Swee", imgUrl: "images/swee.png", color: "#252b33", isLucky: false,
+		work: { gathering: 1, cooling: 1 },
+		normalDrops: [
+			{ name: "Laine", img: "images/wool.png", qty: "x1", rate: "100%" },
+			{ name: "Poil de Swee", img: "images/swee_hair.png", qty: "x1", rate: "50%" }
+		],
+		alphaDrops: [
+			{ name: "Parties de la civilisation ancienne", img: "images/ancient_civilization_parts.png", qty: "x5-7", rate: "100%" },
+			{ name: "Laine", img: "images/wool.png", qty: "x1", rate: "100%" },
+			{ name: "Poil de Swee", img: "images/swee_hair.png", qty: "x1", rate: "50%" },
+			{ name: "Peau précieuse", img: "images/precious_pelt.png", qty: "x5-7", rate: "100%" },
+			{ name: "Anneau de résistance à la glace", img: "images/ring_of_ice_resistance.png", qty: "x1", rate: "5%" }
+		]
+	  },
+	  { id: 036, name: "Sweepa", imgUrl: "images/sweepa.png", color: "#252b33", isLucky: false,
+		work: { cooling: 3, gathering: 2 },
+		normalDrops: [
+			{ name: "Laine", img: "images/wool.png", qty: "x3-5", rate: "100%" }
+		],
+		alphaDrops: [
+			{ name: "Parties de la civilisation ancienne", img: "images/ancient_civilization_parts.png", qty: "x6-8", rate: "100%" },
+			{ name: "Laine", img: "images/wool.png", qty: "x3-5", rate: "100%" },
+			{ name: "Peau précieuse", img: "images/precious_pelt.png", qty: "x6-8", rate: "100%" },
+			{ name: "Anneau de résistance à la glace +1", img: "images/ring_of_ice_resistance.png", qty: "x1", rate: "3%" }
+		]
+	},
+	{ id: 037, name: "Turtacle", imgUrl: "images/turtacle.png", color: "#252b33", isLucky: false,
+		work: { watering: 2, mining: 1, transporting: 1 },
+		normalDrops: [
+			{ name: "Fluides de Pal", img: "images/pal_fluids.png", qty: "x1-2", rate: "100%" },
+			{ name: "Os", img: "images/bone.png", qty: "x2-3", rate: "100%" }
+		],
+		alphaDrops: [
+			{ name: "Parties de la civilisation ancienne", img: "images/ancient_civilization_parts.png", qty: "x2-3", rate: "100%" },
+			{ name: "Fluides de Pal", img: "images/pal_fluids.png", qty: "x1-2", rate: "100%" },
+			{ name: "Os", img: "images/bone.png", qty: "x2-3", rate: "100%" },
+			{ name: "Entrailles précieuses", img: "images/precious_entrails.png", qty: "x1-2", rate: "100%" },
+			{ name: "Sifflet de soutien eau +1", img: "images/water_support_whistle.png", qty: "x1", rate: "3%" }
+		]
+	},
+	{ id: "037B", name: "Turtacle Terra", imgUrl: "images/turtacle_terra.png", color: "#252b33", isLucky: false,
+		work: { watering: 2, mining: 3, transporting: 1 },
+		normalDrops: [
+			{ name: "Fluides de Pal", img: "images/pal_fluids.png", qty: "x1-2", rate: "100%" },
+			{ name: "Os", img: "images/bone.png", qty: "x1", rate: "100%" }
+		],
+		alphaDrops: [
+			{ name: "Parties de la civilisation ancienne", img: "images/ancient_civilization_parts.png", qty: "x2-3", rate: "100%" },
+			{ name: "Fluides de Pal", img: "images/pal_fluids.png", qty: "x1-2", rate: "100%" },
+			{ name: "Os", img: "images/bone.png", qty: "x1", rate: "100%" },
+			{ name: "Entrailles précieuses", img: "images/precious_entrails.png", qty: "x2-3", rate: "100%" },
+			{ name: "Sifflet de soutien Défense +1", img: "images/defense_support_whistle.png", qty: "x1", rate: "3%" }
+		]
+	},
+	{ id: 038, name: "Hangyu", imgUrl: "images/hangyu.png", color: "#252b33", isLucky: false,
+		work: { handiwork: 1, gathering: 1, transporting: 2 },
+		normalDrops: [
+			{ name: "Fibre", img: "images/fiber.png", qty: "x5-10", rate: "100%" }
+		],
+		alphaDrops: [
+			{ name: "Parties de la civilisation ancienne", img: "images/ancient_civilization_parts.png", qty: "x2-3", rate: "100%" },
+			{ name: "Fibre", img: "images/fiber.png", qty: "x5-10", rate: "100%" },
+			{ name: "Peau précieuse", img: "images/precious_pelt.png", qty: "x2-3", rate: "100%" },
+			{ name: "Anneau de résistance à la terre +1", img: "images/ring_of_earth_resistance.png", qty: "x1", rate: "5%" }
+		]
+	},
+	{ id: "038B", name: "Hangyu Cryst", imgUrl: "images/hangyu_cryst.png", color: "#252b33", isLucky: false,
+		work: { handiwork: 3, gathering: 2, cooling: 2, transporting: 3 },
+		normalDrops: [
+			{ name: "Fibre", img: "images/fiber.png", qty: "x5-10", rate: "100%" },
+			{ name: "Organe de glace", img: "images/ice_organ.png", qty: "x1", rate: "100%" }
+		],
+		alphaDrops: [
+			{ name: "Parties de la civilisation ancienne", img: "images/ancient_civilization_parts.png", qty: "x2-3", rate: "100%" },
+			{ name: "Fibre", img: "images/fiber.png", qty: "x5-10", rate: "100%" },
+			{ name: "Organe de glace", img: "images/ice_organ.png", qty: "x1", rate: "100%" },
+			{ name: "Peau précieuse", img: "images/precious_pelt.png", qty: "x2-3", rate: "100%" },
+			{ name: "Anneau de résistance à la glace +1", img: "images/ring_of_ice_resistance.png", qty: "x1", rate: "5%" }
+		]
+	},
+	{ id: 39, name: "Woolipop", imgUrl: "images/woolipop.png", color: "#252b33", isLucky: false,
+	   description: "Laisse parfois tomber de la <span class=\"mot-jaune\">Barbe à papa</span> lorsqu'il est assigné au ranch. Placé dans une base, <span class=\"mot-jaune\">réduit le taux de diminution de la faim</span> des Pals de la base de 10 %. (Ne se cumule pas)",
+		work: { farming: 1 },
+		normalDrops: [
+			{ name: "Barbe à papa", img: "images/cotton_candy.png", qty: "x1-2", rate: "100%" },
+			{ name: "Huile de Pal de haute qualité", img: "images/high_quality_pal_oil.png", qty: "x1", rate: "100%" }
+		],
+		alphaDrops: [
+			{ name: "Parties de la civilisation ancienne", img: "images/ancient_civilization_parts.png", qty: "x1-2", rate: "100%" },
+			{ name: "Barbe à papa", img: "images/cotton_candy.png", qty: "x1-2", rate: "100%" },
+			{ name: "Huile de Pal de haute qualité", img: "images/high_quality_pal_oil.png", qty: "x1", rate: "100%" },
+			{ name: "Peau précieuse", img: "images/precious_pelt.png", qty: "x1-2", rate: "100%" },
+			{ name: "Anneau de résistance neutre", img: "images/ring_of_neutral_resistance.png", qty: "x1", rate: "5%" }
+		]
+	},
+	{ id: "039B", name: "Woolipop Terra", imgUrl: "images/woolipop_terra.png", color: "#252b33", isLucky: false,
+		description: "Laisse parfois tomber de la <span class=\"mot-jaune\">Barbe à papa au caramel</span> lorsqu'il est assigné au ranch. Placé dans une base, <span class=\"mot-jaune\">réduit le taux de diminution de la faim</span> des Pals de la base. (Ne se cumule pas)",
+		work: { farming: 1 },
+		normalDrops: [
+			{ name: "Barbe à papa au caramel", img: "images/caramel_cotton_candy.png", qty: "x1-2", rate: "100%" },
+			{ name: "Laine", img: "images/wool.png", qty: "x1", rate: "100%" }
+		],
+		alphaDrops: [
+			{ name: "Parties de la civilisation ancienne", img: "images/ancient_civilization_parts.png", qty: "x1-2", rate: "100%" },
+			{ name: "Peau précieuse", img: "images/precious_pelt.png", qty: "x2-3", rate: "100%" }
+		]
+	},
+	{ id: 40, name: "Mozzarina", imgUrl: "images/mozzarina.png", color: "#252b33", isLucky: false,
+		description: "Produit parfois du <span class=\"mot-jaune\">Lait</span> lorsqu'il est assigné au ranch.",
+		work: { farming: 2 },
+		normalDrops: [
+			{ name: "Viande de Mozzarina", img: "images/mozzarina_meat.png", qty: "x2-3", rate: "100%" },
+			{ name: "Lait", img: "images/milk.png", qty: "x1", rate: "100%" }
+		],
+		alphaDrops: [
+			{ name: "Parties de la civilisation ancienne", img: "images/ancient_civilization_parts.png", qty: "x1-2", rate: "100%" },
+			{ name: "Viande de Mozzarina", img: "images/mozzarina_meat.png", qty: "x2-3", rate: "100%" },
+			{ name: "Lait", img: "images/milk.png", qty: "x1", rate: "100%" },
+			{ name: "Peau précieuse", img: "images/precious_pelt.png", qty: "x1-2", rate: "100%" },
+			{ name: "Anneau de résistance neutre +1", img: "images/ring_of_neutral_resistance.png", qty: "x1", rate: "3%" }
+		]
+	},
+    ];
+
+    function imageErreur(element, palName, palColor) {
+      const container = element.parentElement;
+      container.style.backgroundColor = palColor || '#4f46e5';
+      container.innerHTML = palName.charAt(0).toUpperCase();
+    }
+
+    function imageDropErreur(element) {
+      element.style.display = 'none'; 
+    }
+
+    function changerCategoriePrincipale() {
+      const mainCat = document.getElementById("main-category").value;
+      
+      document.getElementById("step-main").classList.add("hidden");
+      document.getElementById("results").innerHTML = '<div class="empty-state">Sélectionne une option ci-dessous.</div>';
+
+      if (mainCat === "metiers") {
+        document.getElementById("step-metiers").classList.remove("hidden");
+        document.getElementById("work-select").value = "";
+      } else if (mainCat === "ressources") {
+        document.getElementById("step-ressources").classList.remove("hidden");
+        document.getElementById("filtre-qualite").value = "all";
+        document.getElementById("search-item-bar").value = "";
+        filtrerRessourcesGrille();
+      }
+    }
+
+    function selectionnerRessource(nomRessource) {
+      ressourceSelectionnee = nomRessource;
+
+      document.getElementById("step-ressources").classList.add("hidden");
+      document.getElementById("step-type-pal").classList.remove("hidden");
+      document.getElementById("type-pal-select").value = "";
+      document.getElementById("tri-container").classList.add("hidden");
+
+      document.getElementById("results").innerHTML = '<div class="empty-state">Choisis le type de Pal (Normal ou Alpha).</div>';
+    }
+
+    function gererChangementTypePal() {
+      const typePal = document.getElementById("type-pal-select").value;
+      const triContainer = document.getElementById("tri-container");
+
+      if (typePal) {
+        triContainer.classList.remove("hidden");
+        document.getElementById("tri-select").value = "best";
+      } else {
+        triContainer.classList.add("hidden");
+      }
+      filtrerPals();
+    }
+
+    function retourEtapeMain() {
+      document.getElementById("main-category").value = "";
+      document.getElementById("work-select").value = "";
+      document.getElementById("type-pal-select").value = "";
+      document.getElementById("tri-container").classList.add("hidden");
+      ressourceSelectionnee = "";
+
+      document.getElementById("step-metiers").classList.add("hidden");
+      document.getElementById("step-ressources").classList.add("hidden");
+      document.getElementById("step-type-pal").classList.add("hidden");
+      document.getElementById("step-main").classList.remove("hidden");
+
+      document.getElementById("results").innerHTML = '<div class="empty-state">Sélectionne une option ci-dessus pour afficher les résultats.</div>';
+    }
+
+    function retourEtapeRessources() {
+      document.getElementById("type-pal-select").value = "";
+      document.getElementById("tri-container").classList.add("hidden");
+      document.getElementById("step-type-pal").classList.add("hidden");
+      document.getElementById("step-ressources").classList.remove("hidden");
+      document.getElementById("results").innerHTML = '<div class="empty-state">Sélectionne une ressource.</div>';
+    }
+
+    // 🔍 FONCTION DE RECHERCHE GLOBALE INSTANTANÉE POUR LES PALS
+    function rechercheGlobalePal() {
+      const query = document.getElementById("search-bar").value.toLowerCase().trim();
+      const resultsDiv = document.getElementById("results");
+
+      if (!query) {
+        resultsDiv.innerHTML = '<div class="empty-state">Sélectionne une option ci-dessus pour afficher les résultats.</div>';
+        return;
+      }
+
+      const palsFiltres = palsDatabase.filter(pal => pal.name.toLowerCase().includes(query));
+
+      if (palsFiltres.length === 0) {
+        resultsDiv.innerHTML = `<div class="empty-state">Aucun Pal trouvé pour "${query}".</div>`;
+        return;
+      }
+
+      const tradMetiers = {
+        "lumbering": "Abattage",
+        "kindling": "Allumage",
+        "watering": "Arrosage",
+        "handiwork": "Artisanat",
+        "gathering": "Collecte",
+        "farming": "Exploitation",
+        "mining": "Extraction",
+        "electricity": "Électricité",
+        "medicine": "Pharmacie",
+        "cooling": "Réfrigération",
+        "planting": "Semence",
+        "transporting": "Transport"
+      };
+
+      resultsDiv.innerHTML = palsFiltres.map(pal => {
+        let metiersHTML = "";
+        if (pal.work) {
+          metiersHTML = Object.entries(pal.work).map(([metier, niveau]) => {
+            const nomFR = tradMetiers[metier] || metier;
+            return `<span style="background: var(--accent); color: #fff; padding: 3px 8px; border-radius: 4px; font-size: 13px; margin-right: 5px; display: inline-block; margin-bottom: 4px;">${nomFR} : Niv ${niveau}</span>`;
+          }).join('');
+        }
+
+        let dropsNormauxHTML = "";
+        if (pal.normalDrops && pal.normalDrops.length > 0) {
+          dropsNormauxHTML = pal.normalDrops.map(d => `<div style="font-size: 14px; color: var(--text-muted);">• <strong>${d.name}</strong> (${d.qty} - <span class="rate-perfect">${d.rate}</span>)</div>`).join('');
+        } else {
+          dropsNormauxHTML = `<div style="font-size: 14px; color: var(--text-muted);">Aucun</div>`;
+        }
+
+        let dropsAlphaHTML = "";
+        if (pal.alphaDrops && pal.alphaDrops.length > 0) {
+          dropsAlphaHTML = pal.alphaDrops.map(d => `<div style="font-size: 14px; color: var(--text-muted);">• <strong>${d.name}</strong> (${d.qty} - <span class="rate-perfect">${d.rate}</span>)</div>`).join('');
+        } else {
+          dropsAlphaHTML = `<div style="font-size: 14px; color: var(--text-muted);">Aucun</div>`;
+        }
+
+        return `
+          <div class="pal-card ${pal.isLucky ? 'lucky-card' : ''}">
+            <div class="pal-img-container" style="background-color: ${pal.color || '#374151'}">
+              <img src="${pal.imgUrl}" alt="${pal.name}" class="pal-img" onerror="imageErreur(this, '${pal.name}', '${pal.color}')">
+            </div>
+            <div class="pal-info">
+              <div class="pal-name ${pal.isLucky ? 'lucky-text' : ''}">#${pal.id} - ${pal.name}</div>
+              <div style="margin-bottom: 8px;"><strong>🏕️ Métiers :</strong><br>${metiersHTML || 'Aucun'}</div>
+              <div style="display: flex; gap: 20px; flex-wrap: wrap; margin-top: 8px;">
+                <div style="flex: 1; min-width: 185px;"><strong>📦 Drops Normaux :</strong><br>${dropsNormauxHTML}</div>
+                <div style="flex: 1; min-width: 185px;"><strong>🔴 Drops Alpha :</strong><br>${dropsAlphaHTML}</div>
+              </div>
+              ${pal.description ? `<div class="pal-badge-desc" style="margin-top: 8px;">${pal.description}</div>` : ''}
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function filtrerPals() {
+      document.getElementById("search-bar").value = "";
+
+      const mainCat = document.getElementById("main-category").value;
+      const resultsDiv = document.getElementById("results");
+      let palsFiltres = [];
+
+      if (mainCat === "metiers") {
+        const selectedWork = document.getElementById("work-select").value;
+        if (!selectedWork) {
+          resultsDiv.innerHTML = '<div class="empty-state">Sélectionne un métier.</div>';
+          return;
+        }
+
+        if (selectedWork === "bonus-base") {
+          palsFiltres = palsDatabase.filter(pal => pal.description && pal.description.trim() !== "");
+        } else {
+          palsFiltres = palsDatabase.filter(pal => pal.work && pal.work[selectedWork] !== undefined);
+          palsFiltres.sort((a, b) => {
+            if (b.work[selectedWork] !== a.work[selectedWork]) {
+              return b.work[selectedWork] - a.work[selectedWork];
+            }
+            return (b.isLucky ? 1 : 0) - (a.isLucky ? 1 : 0);
+          });
+        }
+
+        renderResults(palsFiltres, "metier", selectedWork);
+
+      } else if (mainCat === "ressources") {
+        const palType = document.getElementById("type-pal-select").value;
+        const typeTri = document.getElementById("tri-select").value;
+
+        if (!ressourceSelectionnee || !palType) {
+          resultsDiv.innerHTML = '<div class="empty-state">Sélectionne le type de Pal.</div>';
+          return;
+        }
+
+        if (palType === "normal") {
+          palsFiltres = palsDatabase.filter(pal => pal.normalDrops && pal.normalDrops.some(d => d.name === ressourceSelectionnee));
+        } else {
+          palsFiltres = palsDatabase.filter(pal => pal.alphaDrops && pal.alphaDrops.some(d => d.name === ressourceSelectionnee));
+        }
+
+        palsFiltres.sort((a, b) => {
+          const dropsA = (palType === "normal" ? a.normalDrops : a.alphaDrops).find(d => d.name === ressourceSelectionnee);
+          const dropsB = (palType === "normal" ? b.normalDrops : b.alphaDrops).find(d => d.name === ressourceSelectionnee);
+
+          const rateA = parseInt(dropsA.rate) || 0;
+          const rateB = parseInt(dropsB.rate) || 0;
+
+          const matchesA = dropsA.qty.match(/\d+/g);
+          const matchesB = dropsB.qty.match(/\d+/g);
+          const qtyMaxA = matchesA ? parseInt(matchesA[matchesA.length - 1]) : 0;
+          const qtyMaxB = matchesB ? parseInt(matchesB[matchesB.length - 1]) : 0;
+
+          if (typeTri === "best") {
+            const scoreA = (rateA * 100) + qtyMaxA;
+            const scoreB = (rateB * 100) + qtyMaxB;
+            if (scoreA !== scoreB) {
+              return scoreB - scoreA;
+            }
+            return qtyMaxB - qtyMaxA;
+          } else if (typeTri === "taux-max") {
+            if (rateA !== rateB) {
+              return rateB - rateA;
+            }
+            return qtyMaxB - qtyMaxA;
+          } else {
+            if (qtyMaxA !== qtyMaxB) {
+              return qtyMaxB - qtyMaxA;
+            }
+            return rateB - rateA;
+          }
+        });
+
+        renderResults(palsFiltres, "ressource", palType, ressourceSelectionnee);
+      }
+    }
+
+    function renderResults(pals, mode, subParam, targetResource = "") {
+      const resultsDiv = document.getElementById("results");
+
+      if (pals.length === 0) {
+        resultsDiv.innerHTML = '<div class="empty-state">Aucun Pal trouvé pour cette sélection.</div>';
+        return;
+      }
+
+      let allQuantities = [];
+
+      if (mode === "ressource" && targetResource) {
+        pals.forEach(pal => {
+          let list = (subParam === "normal") ? pal.normalDrops : pal.alphaDrops;
+          let drop = list.find(d => d.name === targetResource);
+          if (drop) {
+            let matches = drop.qty.match(/\d+/g);
+            let qtyMax = matches ? parseInt(matches[matches.length - 1]) : 0;
+            allQuantities.push(qtyMax);
+          }
+        });
+      }
+
+      let allSameQty = allQuantities.length > 0 && allQuantities.every(q => q === allQuantities[0]);
+      let maxQty = allQuantities.length > 0 ? Math.max(...allQuantities) : 0;
+      let minQty = allQuantities.length > 0 ? Math.min(...allQuantities) : 0;
+
+      resultsDiv.innerHTML = pals.map((pal) => {
+        let badgeText = "";
+        let dropsHTML = "";
+
+        if (mode === "metier") {
+          badgeText = subParam === "bonus-base" ? "Bonus / Effets" : "Niveau " + pal.work[subParam];
+          let descText = pal.description ? pal.description : (pal.isLucky ? "Passif 'Chanceux' (+15% Vitesse)" : "");
+          
+          if (descText) {
+            dropsHTML = `<div class="pal-badge-desc">${descText}</div>`;
+          }
+        } else {
+          badgeText = subParam === "normal" ? "Normal" : "Alpha (Boss)";
+          let listToDisplay = (subParam === "normal") ? pal.normalDrops : pal.alphaDrops;
+
+          if (targetResource) {
+            listToDisplay = listToDisplay.filter(drop => drop.name === targetResource);
+          }
+
+          dropsHTML = `<div class="drops-list">` + listToDisplay.map((drop) => {
+            let matches = drop.qty.match(/\d+/g);
+            let qtyMax = matches ? parseInt(matches[matches.length - 1]) : 0;
+
+            let qtyClass = "";
+            let rateClass = "";
+
+            if (!allSameQty) {
+              if (qtyMax === maxQty) {
+                qtyClass = "qty-perfect";   
+                rateClass = "rate-perfect";
+              } else if (qtyMax === minQty) {
+                qtyClass = "qty-low";       
+                rateClass = "rate-low";
+              } else {
+                qtyClass = "qty-orange";    
+                rateClass = "rate-orange";
+              }
+            } else {
+              qtyClass = (maxQty > 1) ? "qty-perfect" : "";
+              rateClass = "rate-perfect";
+            }
+
+            return `
+              <div class="drop-item" style="border-color: #60a5fa;">
+                <img src="${drop.img}" alt="${drop.name}" class="drop-img" onerror="imageDropErreur(this)">
+                <div class="drop-details">
+                  <span class="drop-name">${drop.name}</span>
+                  <div class="drop-stats">
+                    <span>Quantité : <strong class="drop-qty ${qtyClass}">${drop.qty}</strong></span>
+                    <span>•</span>
+                    <span>Taux : <span class="${rateClass}">${drop.rate}</span></span>
+                  </div>
+                </div>
+              </div>
+            `;
+          }).join('') + `</div>`;
+        }
+
+        return `
+          <div class="pal-card ${pal.isLucky ? 'lucky-card' : ''}">
+            <div class="pal-img-container" style="background-color: ${pal.color || '#374151'}">
+              <img 
+                src="${pal.imgUrl}" 
+                alt="${pal.name}" 
+                class="pal-img" 
+                onerror="imageErreur(this, '${pal.name}', '${pal.color}')"
+              >
+            </div>
+            <div class="pal-info">
+              <div class="pal-name ${pal.isLucky ? 'lucky-text' : ''}">#${pal.id} - ${pal.name}</div>
+              ${dropsHTML}
+            </div>
+            <span class="pal-level">${badgeText}</span>
+          </div>
+        `;
+      }).join('');
+    }
+  </script>
+</body>
+</html>
