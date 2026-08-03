@@ -785,6 +785,7 @@
           <option value="normal">🟢 Pal Normal Drops</option>
           <option value="alpha">🔴 Pal Alpha Drops (Boss)</option>
         </select>
+		
 
         <!-- 🎛️ MENU DE TRI COMPLET -->
         <div id="tri-container" class="hidden" style="margin-top: 10px;">
@@ -795,6 +796,10 @@
             <option value="qty-max">📦 Meilleure quantité max (Le plus de loot)</option>
           </select>
         </div>
+      </div>
+	  
+	  <div id="step-prix" class="menu-step hidden">
+        <button class="btn-retour" onclick="retourEtapeMain()">⬅️ Retour</button>
       </div>
 
     </div>
@@ -1806,8 +1811,7 @@
 		]
 	},
     ];
-
-    function imageErreur(element, palName, palColor) {
+function imageErreur(element, palName, palColor) {
       const container = element.parentElement;
       container.style.backgroundColor = palColor || '#4f46e5';
       container.innerHTML = palName.charAt(0).toUpperCase();
@@ -1831,6 +1835,8 @@
         document.getElementById("filtre-qualite").value = "all";
         document.getElementById("search-item-bar").value = "";
         filtrerRessourcesGrille();
+		} else if (mainCat === "prix") {
+        afficherPalsParPrix();
       }
     }
 
@@ -1868,6 +1874,10 @@
       document.getElementById("step-metiers").classList.add("hidden");
       document.getElementById("step-ressources").classList.add("hidden");
       document.getElementById("step-type-pal").classList.add("hidden");
+	  
+	  const stepPrix = document.getElementById("step-prix");
+      if(stepPrix) stepPrix.classList.add("hidden");
+	  
       document.getElementById("step-main").classList.remove("hidden");
 
       document.getElementById("results").innerHTML = '<div class="empty-state">Sélectionne une option ci-dessus pour afficher les résultats.</div>';
@@ -2088,10 +2098,10 @@
 
             if (!allSameQty) {
               if (qtyMax === maxQty) {
-                qtyClass = "qty-perfect";   
+                qtyClass = "qty-perfect";    
                 rateClass = "rate-perfect";
               } else if (qtyMax === minQty) {
-                qtyClass = "qty-low";       
+                qtyClass = "qty-low";        
                 rateClass = "rate-low";
               } else {
                 qtyClass = "qty-orange";    
@@ -2133,6 +2143,52 @@
               ${dropsHTML}
             </div>
             <span class="pal-level">${badgeText}</span>
+          </div>
+        `;
+      }).join('');
+    }
+    
+    // 💰 FONCTION UNIQUE POUR AFFICHER LES PALS PAR PRIX
+    function afficherPalsParPrix() {
+      document.getElementById("step-main").classList.add("hidden");
+      if(document.getElementById("step-metiers")) document.getElementById("step-metiers").classList.add("hidden");
+      if(document.getElementById("step-ressources")) document.getElementById("step-ressources").classList.add("hidden");
+      if(document.getElementById("step-type-pal")) document.getElementById("step-type-pal").classList.add("hidden");
+      if(document.getElementById("tri-container")) document.getElementById("tri-container").classList.add("hidden");
+	  
+	  const stepPrix = document.getElementById("step-prix");
+      if(stepPrix) stepPrix.classList.remove("hidden");
+	  
+      const resultsDiv = document.getElementById("results");
+
+      const palsTries = [...palsDatabase].sort((a, b) => {
+        const prixA = a.sellPrice || a.price || a.prix || 0; 
+        const prixB = b.sellPrice || b.price || b.prix || 0;
+        return prixB - prixA;
+      });
+	  
+
+
+      resultsDiv.innerHTML = palsTries.map(pal => {
+        const prixPal = pal.sellPrice || pal.price || pal.prix || "Inconnu";
+        
+        return `
+          <div class="pal-card ${pal.isLucky ? 'lucky-card' : ''}">
+            <div class="pal-img-container" style="background-color: ${pal.color || '#374151'}">
+              <img 
+                src="${pal.imgUrl}" 
+                alt="${pal.name}" 
+                class="pal-img" 
+                onerror="imageErreur(this, '${pal.name}', '${pal.color}')"
+              >
+            </div>
+            <div class="pal-info">
+              <div class="pal-name ${pal.isLucky ? 'lucky-text' : ''}">#${pal.id} - ${pal.name}</div>
+              
+              <div style="margin-top: 12px; background: #fbbf24; color: #1f2937; padding: 6px 10px; border-radius: 6px; font-weight: bold; display: inline-block;">
+                💰 Prix : ${prixPal} Or
+              </div>
+            </div>
           </div>
         `;
       }).join('');
