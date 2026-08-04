@@ -497,10 +497,18 @@
 			<img src="images/ring_of_fire_resistance.png" alt="Anneau de résistance au feu">
 			<span>Anneau de résistance au feu</span>
 		 </div>
+		<div class="resource-card-select rarity-uncommon" data-ressource="Anneau de résistance au feu +1" data-tooltip="Qualité : Inhabituelle">
+			<img src="images/ring_of_fire_resistance.png" alt="Anneau de résistance au feu +1">
+			<span>Anneau de résistance au feu +1</span>
+		</div>
           <div class="resource-card-select rarity-common" data-ressource="Anneau de résistance à la foudre" data-tooltip="Qualité : Commun">
             <img src="images/ring_of_lightning_resistance.png" alt="Anneau de résistance à la foudre">
             <span>Anneau de résistance à la foudre</span>
           </div>
+		  <div class="resource-card-select rarity-uncommon" data-ressource="Anneau de résistance à la foudre +1" data-tooltip="Qualité : Inhabituelle">
+			<img src="images/ring_of_lightning_resistance.png" alt="Anneau de résistance à la foudre +1">
+			<span>Anneau de résistance à la foudre +1</span>
+		  </div>
           <div class="resource-card-select rarity-common" data-ressource="Anneau de résistance de glace" data-tooltip="Qualité : Commun">
             <img src="images/ring_of_ice_resistance.png" alt="Anneau de résistance de glace">
             <span>Anneau de résistance de glace</span>
@@ -561,6 +569,10 @@
             <img src="images/mushroom.png" alt="Champignon">
             <span>Champignon</span>
           </div>
+		<div class="resource-card-select rarity-common" data-ressource="Corne" data-tooltip="Qualité : Commune">
+			<img src="images/horn.png" alt="Corne">
+			<span>Corne</span>
+		</div>
           <div class="resource-card-select rarity-common" data-ressource="Cuir" data-tooltip="Qualité : Commun">
             <img src="images/leather.png" alt="Cuir">
             <span>Cuir</span>
@@ -605,15 +617,27 @@
             <img src="images/berry_seeds.png" alt="Graines de baies">
             <span>Graines de baies</span>
           </div>
-		  <div class="resource-card-select rarity-common" data-ressource="Graines de pomme de terre" data-tooltip="Qualité : Commun">
+		<div class="resource-card-select rarity-common" data-ressource="Graines de blé" data-tooltip="Qualité : Commune">
+			<img src="images/wheat_seeds.png" alt="Graines de blé">
+			<span>Graines de blé</span>
+		</div>
+		<div class="resource-card-select rarity-common" data-ressource="Graines de carotte" data-tooltip="Qualité : Commune">
+			<img src="images/carrot_seeds.png" alt="Graines de carotte">
+			<span>Graines de carotte</span>
+		</div>
+		<div class="resource-card-select rarity-common" data-ressource="Graines de laitue" data-tooltip="Qualité : Commune">
+			<img src="images/lettuce_seeds.png" alt="Graines de laitue">
+			<span>Graines de laitue</span>
+		</div>
+		<div class="resource-card-select rarity-common" data-ressource="Graines de pomme de terre" data-tooltip="Qualité : Commun">
 			<img src="images/potato_seeds.png" alt="Graines de pomme de terre">
 			<span>Graines de pomme de terre</span>
-		</div>
-          <div class="resource-card-select rarity-rare" data-ressource="Griffe précieuse" data-tooltip="Qualité : Rare">
+		 </div>
+        <div class="resource-card-select rarity-rare" data-ressource="Griffe précieuse" data-tooltip="Qualité : Rare">
             <img src="images/precious_claw.png" alt="Griffe précieuse">
             <span>Griffe précieuse</span>
-          </div>
-		  <div class="resource-card-select rarity-uncommon" data-ressource="Huile de Pal de haute qualité" data-tooltip="Qualité : Inhabituel">
+         </div>
+		<div class="resource-card-select rarity-uncommon" data-ressource="Huile de Pal de haute qualité" data-tooltip="Qualité : Inhabituel">
 			<img src="images/high_quality_pal_oil.png" alt="Huile de Pal de haute qualité">
 			<span>Huile de Pal de haute qualité</span>
 		 </div>
@@ -1840,7 +1864,126 @@
 			{ name: "Anneau de résistance neutre", img: "images/ring_of_neutral_resistance.png", qty: "x1", rate: "5%" }
 		]
 	},
+	{ id: 54, name: "Univolt", imgUrl: "images/univolt.png", color: "#252b33", isLucky: false,
+		work: { electricity: 3, lumbering: 1 },
+		normalDrops: [
+			{ name: "Cuir", img: "images/leather.png", qty: "x2", rate: "100%" },
+			{ name: "Organe électrique", img: "images/electric_organ.png", qty: "x1", rate: "100%" },
+			{ name: "Corne", img: "images/horn.png", qty: "x1", rate: "50%" }
+		],
+		alphaDrops: [
+			{ name: "Parties de la civilisation ancienne", img: "images/ancient_civilization_parts.png", qty: "x2-3", rate: "100%" },
+			{ name: "Cuir", img: "images/leather.png", qty: "x2", rate: "100%" },
+			{ name: "Organe électrique", img: "images/electric_organ.png", qty: "x1", rate: "100%" },
+			{ name: "Griffe précieuse", img: "images/precious_claw.png", qty: "x1-2", rate: "100%" },
+			{ name: "Anneau de résistance à la foudre +1", img: "images/ring_of_lightning_resistance.png", qty: "x1", rate: "3%" }
+		]
+	},
+	{ id: 55, name: "Gobfin", imgUrl: "images/gobfin.png", color: "#252b33", isLucky: false,
+		work: { watering: 2, handiwork: 2, transporting: 1 },
+		normalDrops: [
+			{ name: "Fluide de Pal", img: "images/pal_fluids.png", qty: "x1", rate: "100%" }
+		],
+		alphaDrops: [
+			{ name: "Parties de la civilisation ancienne", img: "images/ancient_civilization_parts.png", qty: "x2-4", rate: "100%" },
+			{ name: "Fluide de Pal", img: "images/pal_fluids.png", qty: "x1", rate: "100%" },
+			{ name: "Griffe précieuse", img: "images/precious_claw.png", qty: "x2-4", rate: "100%" },
+			{ name: "Anneau de résistance à l'eau", img: "images/ring_of_water_resistance.png", qty: "x1", rate: "5%" }
+		]
+	},
+	{ id: "55B", name: "Gobfin Ignis", imgUrl: "images/gobfin_ignis.png", color: "#252b33", isLucky: false,
+		work: { kindling: 2, handiwork: 2, transporting: 1 },
+		normalDrops: [
+			{ name: "Organe d'allumage", img: "images/flame_organ.png", qty: "x1", rate: "100%" }
+		],
+		alphaDrops: [
+			{ name: "Parties de la civilisation ancienne", img: "images/ancient_civilization_parts.png", qty: "x2-4", rate: "100%" },
+			{ name: "Organe d'allumage", img: "images/flame_organ.png", qty: "x1", rate: "100%" },
+			{ name: "Griffe précieuse", img: "images/precious_claw.png", qty: "x2-4", rate: "100%" },
+			{ name: "Anneau de résistance au feu", img: "images/ring_of_fire_resistance.png", qty: "x1", rate: "5%" }
+		]
+	},
+	{ id: 56, name: "Loupmoon", imgUrl: "images/loupmoon.png", color: "#252b33", isLucky: false,
+		work: { handiwork: 2 },
+		normalDrops: [
+			{ name: "Os", img: "images/bone.png", qty: "x1", rate: "100%" }
+		],
+		alphaDrops: [
+			{ name: "Parties de la civilisation ancienne", img: "images/ancient_civilization_parts.png", qty: "x1-3", rate: "100%" },
+			{ name: "Os", img: "images/bone.png", qty: "x1", rate: "100%" },
+			{ name: "Griffe précieuse", img: "images/precious_claw.png", qty: "x1-3", rate: "100%" },
+			{ name: "Anneau de résistance aux ténèbres", img: "images/ring_of_dark_resistance.png", qty: "x1", rate: "5%" }
+		]
+	},
+	{ id: "56B", name: "Loupmoon Cryst", imgUrl: "images/loupmoon_cryst.png", color: "#252b33", isLucky: false,
+		work: { handiwork: 4, cooling: 4 },
+		normalDrops: [
+			{ name: "Os", img: "images/bone.png", qty: "x1", rate: "100%" }
+		],
+		alphaDrops: [
+			{ name: "Parties de la civilisation ancienne", img: "images/ancient_civilization_parts.png", qty: "x4-6", rate: "100%" },
+			{ name: "Os", img: "images/bone.png", qty: "x1", rate: "100%" },
+			{ name: "Griffe précieuse", img: "images/precious_claw.png", qty: "x2-3", rate: "100%" },
+			{ name: "Anneau de résistance à la glace", img: "images/ring_of_ice_resistance.png", qty: "x1", rate: "3%" }
+		]
+	},
+	{ id: 57, name: "Cawgnito", imgUrl: "images/cawgnito.png", color: "#252b33", isLucky: false,
+		work: { lumbering: 2, farming: 1 },
+		normalDrops: [
+			{ name: "Os", img: "images/bone.png", qty: "x2-4", rate: "100%" },
+			{ name: "Glande à venin", img: "images/venom_gland.png", qty: "x2", rate: "100%" },
+			{ name: "Petite âme de Pal", img: "images/small_pal_soul.png", qty: "x1", rate: "1%" }
+		],
+		alphaDrops: [
+			{ name: "Parties de la civilisation ancienne", img: "images/ancient_civilization_parts.png", qty: "x1-2", rate: "100%" },
+			{ name: "Os", img: "images/bone.png", qty: "x2-4", rate: "100%" },
+			{ name: "Glande à venin", img: "images/venom_gland.png", qty: "x2", rate: "100%" },
+			{ name: "Plume précieuse", img: "images/precious_plume.png", qty: "x1-2", rate: "100%" },
+			{ name: "Anneau de résistance aux ténèbres", img: "images/ring_of_dark_resistance.png", qty: "x1", rate: "5%" }
+		]
+	},
+	{ id: 58, name: "Arsox", imgUrl: "images/arsox.png", color: "#252b33", isLucky: false,
+		work: { kindling: 3, lumbering: 2 },
+		normalDrops: [
+			{ name: "Corne", img: "images/horn.png", qty: "x1", rate: "100%" },
+			{ name: "Organe d'allumage", img: "images/flame_organ.png", qty: "x2-3", rate: "100%" }
+		],
+		alphaDrops: [
+			{ name: "Parties de la civilisation ancienne", img: "images/ancient_civilization_parts.png", qty: "x1-3", rate: "100%" },
+			{ name: "Corne", img: "images/horn.png", qty: "x1", rate: "100%" },
+			{ name: "Organe d'allumage", img: "images/flame_organ.png", qty: "x2-3", rate: "100%" },
+			{ name: "Peau précieuse", img: "images/precious_pelt.png", qty: "x1-3", rate: "100%" },
+			{ name: "Anneau de résistance au feu +1", img: "images/ring_of_fire_resistance.png", qty: "x1", rate: "3%" }
+		]
+	},
+	{ id: 59, name: "Muffly", imgUrl: "images/muffly.png", color: "#252b33", isLucky: false,
+		work: { cooling: 2, transporting: 1 },
+		normalDrops: [
+			{ name: "Organe de glace", img: "images/ice_organ.png", qty: "x1", rate: "100%" }
+		],
+		alphaDrops: [
+			{ name: "Parties de la civilisation ancienne", img: "images/ancient_civilization_parts.png", qty: "x1-2", rate: "100%" },
+			{ name: "Plume précieuse", img: "images/precious_plume.png", qty: "x2-3", rate: "100%" }
+		]
+	},
+	{ id: 60, name: "Bristla", imgUrl: "images/bristla.png", color: "#252b33", isLucky: false,
+		description: "This prickly Pal's thorns are highly poisonous. It is friendly with Cinnamoth and only smiles when a Cinnamoth is drinking its nectar.",
+		work: { planting: 2, handiwork: 2, gathering: 2, medicineProduction: 2, transporting: 1 },
+		normalDrops: [
+			{ name: "Graines de blé", img: "images/wheat_seeds.png", qty: "x1-2", rate: "100%" },
+			{ name: "Graines de laitue", img: "images/lettuce_seeds.png", qty: "x1", rate: "50%" },
+			{ name: "Graines de carotte", img: "images/carrot_seeds.png", qty: "x1", rate: "50%" }
+		],
+		alphaDrops: [
+			{ name: "Parties de la civilisation ancienne", img: "images/ancient_civilization_parts.png", qty: "x2-4", rate: "100%" },
+			{ name: "Graines de blé", img: "images/wheat_seeds.png", qty: "x1-2", rate: "100%" },
+			{ name: "Graines de laitue", img: "images/lettuce_seeds.png", qty: "x1", rate: "50%" },
+			{ name: "Viscères précieux", img: "images/precious_entrails.png", qty: "x2-4", rate: "100%" },
+			{ name: "Anneau de résistance à l'herbe", img: "images/ring_of_grass_resistance.png", qty: "x1", rate: "5%" }
+		]
+	},
     ];
+	
 function imageErreur(element, palName, palColor) {
       const container = element.parentElement;
       container.style.backgroundColor = palColor || '#4f46e5';
@@ -1865,8 +2008,6 @@ function imageErreur(element, palName, palColor) {
         document.getElementById("filtre-qualite").value = "all";
         document.getElementById("search-item-bar").value = "";
         filtrerRessourcesGrille();
-		} else if (mainCat === "prix") {
-        afficherPalsParPrix();
       }
     }
 
