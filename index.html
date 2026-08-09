@@ -562,7 +562,7 @@
 			<span>Barbe à papa au caramel</span>
 		</div>
 		<div class="resource-card-select rarity-uncommon" data-ressource="Bâton d'Elizabee" data-tooltip="Qualité : Inhabituelle">
-			<img src="images/elizabees_staff.png" alt="Bâton d'Elizabee">
+			<img src="images/elizabee's_staff.png" alt="Bâton d'Elizabee">
 			<span>Bâton d'Elizabee</span>
 		</div>
 		<div class="resource-card-select rarity-common" data-ressource="Belle fleur" data-tooltip="Qualité : Commun">
@@ -657,6 +657,14 @@
 			<img src="images/high_quality_pal_oil.png" alt="Huile de Pal de haute qualité">
 			<span>Huile de Pal de haute qualité</span>
 		 </div>
+		<div class="resource-card-select rarity-common" data-ressource="Jus étrange" data-tooltip="Qualité : Commune">
+			<img src="images/strange_juice.png" alt="Jus étrange">
+			<span>Jus étrange</span>
+		</div>
+		<div class="resource-card-select rarity-common" data-ressource="Jus suspect" data-tooltip="Qualité : Commune">
+			<img src="images/suspicious_juice.png" alt="Jus suspect">
+			<span>Jus suspect</span>
+		</div>
 		 <div class="resource-card-select rarity-common" data-ressource="Tentacule de Killamari" data-tooltip="Qualité : Commun">
 			<img src="images/killamari_tentacle.png" alt="Tentacule de Killamari">
 			<span>Tentacule de Killamari</span>
@@ -741,6 +749,10 @@
 	        <img src="images/gunpowder.png" alt="Poudre à canon">
 	        <span>Poudre à canon</span>
 		 </div>
+		<div class="resource-card-select rarity-common" data-ressource="Remède d'amnésie" data-tooltip="Qualité : Commune">
+			<img src="images/memory_wiping_medicine.png" alt="Remède d'amnésie">
+			<span>Remède d'amnésie</span>
+		</div>
 		  <div class="resource-card-select rarity-rare" data-ressource="Rubis" data-tooltip="Qualité : Rare">
             <img src="images/ruby.png" alt="Rubis">
             <span>Rubis</span>
@@ -2133,13 +2145,30 @@
 		work: { planting: 4, handiwork: 4, gathering: 4, lumbering: 3, medicineProduction: 4 },
 		normalDrops: [
 			{ name: "Miel", img: "images/honey.png", qty: "x5", rate: "100%" },
-			{ name: "Bâton d'Elizabee", img: "images/elizabees_staff.png", qty: "x1", rate: "3%" }
+			{ name: "Bâton d'Elizabee", img: "images/elizabee's_staff.png", qty: "x1", rate: "3%" }
 		],
 		alphaDrops: [
 			{ name: "Parties de la civilisation ancienne", img: "images/ancient_civilization_parts.png", qty: "x2-4", rate: "100%" },
 			{ name: "Miel", img: "images/honey.png", qty: "x5", rate: "100%" },
 			{ name: "Plume précieuse", img: "images/precious_plume.png", qty: "x2-4", rate: "100%" },
 			{ name: "Schéma d'armure métallique 4", img: "images/metal_armor_schematic.png", qty: "x1", rate: "3%" }
+		]
+	},
+	{ id: 69, name: "Lovander", imgUrl: "images/lovander.png", color: "#252b33", isLucky: false,
+		work: { handiwork: 3, mining: 2, medicineProduction: 3, transporting: 2 },
+		normalDrops: [
+			{ name: "Champignon", img: "images/mushroom.png", qty: "x2-4", rate: "100%" },
+			{ name: "Gâteau", img: "images/cake.png", qty: "x1", rate: "1%" },
+			{ name: "Jus suspect", img: "images/suspicious_juice.png", qty: "x1", rate: "1%" },
+			{ name: "Jus étrange", img: "images/strange_juice.png", qty: "x1", rate: "1%" },
+			{ name: "Remède d'amnésie", img: "images/memory_wiping_medicine.png", qty: "x1", rate: "1%" }
+		],
+		alphaDrops: [
+			{ name: "Parties de la civilisation ancienne", img: "images/ancient_civilization_parts.png", qty: "x2-4", rate: "100%" },
+			{ name: "Champignon", img: "images/mushroom.png", qty: "x2-4", rate: "100%" },
+			{ name: "Gâteau", img: "images/cake.png", qty: "x1", rate: "1%" },
+			{ name: "Fourrure précieuse", img: "images/precious_pelt.png", qty: "x2-4", rate: "100%" },
+			{ name: "Anneau de résistance neutre +1", img: "images/ring_of_neutral_resistance.png", qty: "x1", rate: "3%" }
 		]
 	},
     ];
