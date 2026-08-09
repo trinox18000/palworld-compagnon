@@ -2447,13 +2447,14 @@ function imageErreur(element, palName, palColor) {
         let badgeText = "";
         let dropsHTML = "";
 
-        if (mode === "metier") {
-          badgeText = subParam === "bonus-base" ? "Bonus / Effets" : "Niveau " + pal.work[subParam];
+       if (mode === "metier") {
+          badgeText = subParam === "bonus-base" ? "Bonus / Effets" : "Niveau " + (pal.work[subParam] || 0);
           let descText = pal.description ? pal.description : (pal.isLucky ? "Passif 'Chanceux' (+15% Vitesse)" : "");
           
           if (descText) {
-            dropsHTML = `<div class="pal-badge-desc">${descText}</div>`;
+            dropsHTML = `<div class="pal-badge-desc" style="margin-top: 8px; line-height: 1.4; color: var(--text-muted);">${descText}</div>`;
           }
+		  
         } else {
           badgeText = subParam === "normal" ? "Normal" : "Alpha (Boss)";
           let listToDisplay = (subParam === "normal") ? pal.normalDrops : pal.alphaDrops;
@@ -2501,7 +2502,7 @@ function imageErreur(element, palName, palColor) {
           }).join('') + `</div>`;
         }
 
-        return `
+    return `
           <div class="pal-card ${pal.isLucky ? 'lucky-card' : ''}">
             <div class="pal-img-container" style="background-color: ${pal.color || '#374151'}">
               <img 
@@ -2515,7 +2516,9 @@ function imageErreur(element, palName, palColor) {
               <div class="pal-name ${pal.isLucky ? 'lucky-text' : ''}">#${pal.id} - ${pal.name}</div>
               ${dropsHTML}
             </div>
-            <span class="pal-level">${badgeText}</span>
+            <div style="display: flex; align-items: flex-start; align-self: stretch;">
+              <span class="pal-level">${badgeText}</span>
+            </div>
           </div>
         `;
       }).join('');
