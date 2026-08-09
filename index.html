@@ -1998,6 +1998,17 @@
 			{ name: "Anneau de résistance à l'herbe +1", img: "images/ring_of_grass_resistance_1.png", qty: "x1", rate: "3%" }
 		]
 	},
+	{ id: 62, name: "Puffolt", imgUrl: "images/puffolt.png", color: "#252b33", isLucky: false,
+		description: "Tant qu'il est à une base, augmente le niveau +1 d'aptitude de <span class=\"mot-jaune\">travail de génération d'électricité</span> de tous les autres Pals de la base. (Ne se cumule pas)",
+		work: { generatingElectricity: 2, transporting: 1 },
+		normalDrops: [
+			{ name: "Organe électrique", img: "images/electric_organ.png", qty: "x1", rate: "100%" }
+		],
+		alphaDrops: [
+			{ name: "Parties de la civilisation ancienne", img: "images/ancient_civilization_parts.png", qty: "x1-2", rate: "100%" },
+			{ name: "Viscères précieux", img: "images/precious_entrails.png", qty: "x2-3", rate: "100%" }
+		]
+	},
     ];
 	
 function imageErreur(element, palName, palColor) {
