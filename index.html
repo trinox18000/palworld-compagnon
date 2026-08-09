@@ -561,6 +561,10 @@
 			<img src="images/caramel_cotton_candy.png" alt="Barbe à papa au caramel">
 			<span>Barbe à papa au caramel</span>
 		</div>
+		<div class="resource-card-select rarity-uncommon" data-ressource="Bâton d'Elizabee" data-tooltip="Qualité : Inhabituelle">
+			<img src="images/elizabees_staff.png" alt="Bâton d'Elizabee">
+			<span>Bâton d'Elizabee</span>
+		</div>
 		<div class="resource-card-select rarity-common" data-ressource="Belle fleur" data-tooltip="Qualité : Commun">
 			<img src="images/beautiful_flower.png" alt="Belle fleur">
 			<span>Belle fleur</span>
@@ -753,14 +757,13 @@
             <img src="images/schematic.png" alt="Schéma d'arc ancien +4">
             <span>Schéma d'arc ancien +4</span>
           </div>
-		<div class="resource-card-select rarity-epic" data-ressource="Schéma de fusil de chasse à double canon 4" data-tooltip="Qualité : Épique">
+		<div class="resource-card-select rarity-legendary" data-ressource="Schéma d'armure métallique 4" data-tooltip="Qualité : Légendaire">
+			<img src="images/metal_armor_schematic.png" alt="Schéma d'armure métallique 4">
+			<span>Schéma d'armure métallique 4</span>
+		</div>
+		<div class="resource-card-select rarity-Légendaire" data-ressource="Schéma de fusil de chasse à double canon 4" data-tooltip="Qualité : Légendaire">
 			<img src="images/double-barreled_shotgun_schematic.png" alt="Schéma de fusil de chasse à double canon 4">
 			<span>Schéma de fusil de chasse à double canon 4</span>
-		</div>
-		<div class="resource-card-select rarity-epic" data-ressource="Schéma de fusil de chasse à double canon 4" data-tooltip="Qualité : Épique">
-			<img src="images/double_barreled_shotgun_schematic_4.png" alt="Schéma de fusil de chasse à double canon 4">
-			<span>Schéma de fusil de chasse à double canon 4</span>
-		</div>
 		</div>
 		<div class="resource-card-select rarity-uncommon" data-ressource="Sifflet de soutien d'attaque +1" data-tooltip="Qualité : Inhabituel">
 			<img src="images/attack_support_whistle.png" alt="Sifflet de soutien d'attaque +1">
@@ -2124,6 +2127,19 @@
 			{ name: "Miel", img: "images/honey.png", qty: "x1-2", rate: "100%" },
 			{ name: "Plume précieuse", img: "images/precious_plume.png", qty: "x2-4", rate: "100%" },
 			{ name: "Anneau de résistance à l'herbe +1", img: "images/ring_of_grass_resistance.png", qty: "x1", rate: "3%" }
+		]
+	},
+	{ id: 68, name: "Elizabee", imgUrl: "images/elizabee.png", color: "#252b33", isLucky: false,
+		work: { planting: 4, handiwork: 4, gathering: 4, lumbering: 3, medicineProduction: 4 },
+		normalDrops: [
+			{ name: "Miel", img: "images/honey.png", qty: "x5", rate: "100%" },
+			{ name: "Bâton d'Elizabee", img: "images/elizabees_staff.png", qty: "x1", rate: "3%" }
+		],
+		alphaDrops: [
+			{ name: "Parties de la civilisation ancienne", img: "images/ancient_civilization_parts.png", qty: "x2-4", rate: "100%" },
+			{ name: "Miel", img: "images/honey.png", qty: "x5", rate: "100%" },
+			{ name: "Plume précieuse", img: "images/precious_plume.png", qty: "x2-4", rate: "100%" },
+			{ name: "Schéma d'armure métallique 4", img: "images/metal_armor_schematic.png", qty: "x1", rate: "3%" }
 		]
 	},
     ];
