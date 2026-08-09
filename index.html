@@ -493,6 +493,10 @@
 			<img src="images/ring_of_grass_resistance.png" alt="Anneau de résistance à l'herbe +1">
 			<span>Anneau de résistance à l'herbe +1</span>
 		 </div>
+		<div class="resource-card-select rarity-uncommon" data-ressource="Anneau de résistance au dragon +1" data-tooltip="Qualité : Inhabituelle">
+			<img src="images/ring_of_dragon_resistance.png" alt="Anneau de résistance au dragon +1">
+			<span>Anneau de résistance au dragon +1</span>
+		</div>
 		  <div class="resource-card-select rarity-rare" data-ressource="Anneau de résistance au feu" data-tooltip="Qualité : Rare">
 			<img src="images/ring_of_fire_resistance.png" alt="Anneau de résistance au feu">
 			<span>Anneau de résistance au feu</span>
@@ -1983,7 +1987,7 @@
 		]
 	},
 	{ id: 61, name: "Cinnamoth", imgUrl: "images/cinnamoth.png", color: "#252b33", isLucky: false,
-		description: "augmente le niveau d'aptitude de <span class=\"mot-jaune\">travail d'agriculture de +1</span> de tous les autres Pals de la base. (Ne se cumule pas)",
+		description: "<span class=\"mot-jaune\">augmente le niveau d'aptitude de travail d'agriculture de +1</span> de tous les autres Pals de la base. (Ne se cumule pas)",
 		work: { planting: 2, gathering: 2, medicineProduction: 2 },
 		normalDrops: [
 			{ name: "Miel", img: "images/honey.png", qty: "x1", rate: "100%" },
@@ -1999,7 +2003,7 @@
 		]
 	},
 	{ id: 62, name: "Puffolt", imgUrl: "images/puffolt.png", color: "#252b33", isLucky: false,
-		description: "Tant qu'il est à une base, augmente le niveau +1 d'aptitude de <span class=\"mot-jaune\">travail de génération d'électricité</span> de tous les autres Pals de la base. (Ne se cumule pas)",
+		description: "Tant qu'il est à une base, <span class=\"mot-jaune\">augmente le niveau d'aptitude de +1 de travail de génération d'électricité</span> de tous les autres Pals de la base. (Ne se cumule pas)",
 		work: { generatingElectricity: 2, transporting: 1 },
 		normalDrops: [
 			{ name: "Organe électrique", img: "images/electric_organ.png", qty: "x1", rate: "100%" }
@@ -2007,6 +2011,19 @@
 		alphaDrops: [
 			{ name: "Parties de la civilisation ancienne", img: "images/ancient_civilization_parts.png", qty: "x1-2", rate: "100%" },
 			{ name: "Viscères précieux", img: "images/precious_entrails.png", qty: "x2-3", rate: "100%" }
+		]
+	},
+	{ id: 63, name: "Elphidran", imgUrl: "images/elphidran.png", color: "#252b33", isLucky: false,
+		description: "Peut être monté comme monture volante. Pendant le vol, la vitesse de déplacement est augmentée. En combattant ensemble, les Pals de type Ténèbres rapportent plus d'objets lorsqu'ils sont vaincus.",
+		work: { lumbering: 3 },
+		normalDrops: [
+			{ name: "Huile de Pal de haute qualité", img: "images/high_quality_pal_oil.png", qty: "x2-3", rate: "100%" }
+		],
+		alphaDrops: [
+			{ name: "Parties de la civilisation ancienne", img: "images/ancient_civilization_parts.png", qty: "x2-3", rate: "100%" },
+			{ name: "Huile de Pal de haute qualité", img: "images/high_quality_pal_oil.png", qty: "x2-3", rate: "100%" },
+			{ name: "Plume précieuse", img: "images/precious_plume.png", qty: "x2-3", rate: "100%" },
+			{ name: "Anneau de résistance au dragon +1", img: "images/ring_of_dragon_resistance.png", qty: "x1", rate: "3%" }
 		]
 	},
     ];
