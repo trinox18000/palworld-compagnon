@@ -657,6 +657,10 @@
             <img src="images/high_grade_technical_manual.png" alt="Manuel technique de haute qualité">
             <span>Manuel technique de haute qualité</span>
           </div>
+		<div class="resource-card-select rarity-common" data-ressource="Miel" data-tooltip="Qualité : Commune">
+			<img src="images/honey.png" alt="Miel">
+			<span>Miel</span>
+		</div>
           <div class="resource-card-select rarity-common" data-ressource="Mouton de Lamball" data-tooltip="Qualité : Commun">
             <img src="images/lamball_mutton_.png" alt="Mouton de Lamball">
             <span>Mouton de Lamball</span>
@@ -1710,7 +1714,7 @@
 		]
 	},
 	{ id: 44, name: "Ribbuny", imgUrl: "images/ribbuny.png", color: "#252b33", isLucky: false,
-		description: "Au camp, augmente le niveau d'aptitude de travail de tous les autres Pals de +1 en <span class=\"mot-jaune\">+1 Handiwork</span>. (Ne se cumule pas.)",
+		description: "Au camp, augmente le niveau d'aptitude de travail de tous les autres Pals de +1 en <span class=\"mot-jaune\">+1 Travail manuel</span>. (Ne se cumule pas.)",
 		work: { handiwork: 1, gathering: 1, transport: 1 },
 		normalDrops: [
 			{ name: "Cuir", img: "images/leather.png", qty: "x1", rate: "100%" },
@@ -1967,7 +1971,6 @@
 		]
 	},
 	{ id: 60, name: "Bristla", imgUrl: "images/bristla.png", color: "#252b33", isLucky: false,
-		description: "This prickly Pal's thorns are highly poisonous. It is friendly with Cinnamoth and only smiles when a Cinnamoth is drinking its nectar.",
 		work: { planting: 2, handiwork: 2, gathering: 2, medicineProduction: 2, transporting: 1 },
 		normalDrops: [
 			{ name: "Graines de blé", img: "images/wheat_seeds.png", qty: "x1-2", rate: "100%" },
@@ -1980,6 +1983,22 @@
 			{ name: "Graines de laitue", img: "images/lettuce_seeds.png", qty: "x1", rate: "50%" },
 			{ name: "Viscères précieux", img: "images/precious_entrails.png", qty: "x2-4", rate: "100%" },
 			{ name: "Anneau de résistance à l'herbe", img: "images/ring_of_grass_resistance.png", qty: "x1", rate: "5%" }
+		]
+	},
+	{ id: 61, name: "Cinnamoth", imgUrl: "images/cinnamoth.png", color: "#252b33", isLucky: false,
+		description: "augmente le niveau d'aptitude de <span class=\"mot-jaune\">travail d'agriculture de +1</span> de tous les autres Pals de la base. (Ne se cumule pas)",
+		work: { planting: 2, gathering: 2, medicineProduction: 2 },
+		normalDrops: [
+			{ name: "Miel", img: "images/honey.png", qty: "x1", rate: "100%" },
+			{ name: "Graines de laitue", img: "images/lettuce_seeds.png", qty: "x1", rate: "80%" },
+			{ name: "Graines de tomate", img: "images/tomato_seeds.png", qty: "x1", rate: "80%" }
+		],
+		alphaDrops: [
+			{ name: "Parties de la civilisation ancienne", img: "images/ancient_civilization_parts.png", qty: "x2-4", rate: "100%" },
+			{ name: "Miel", img: "images/honey.png", qty: "x1", rate: "100%" },
+			{ name: "Graines de laitue", img: "images/lettuce_seeds.png", qty: "x1", rate: "20%" },
+			{ name: "Plume précieuse", img: "images/precious_plume.png", qty: "x2-4", rate: "100%" },
+			{ name: "Anneau de résistance à l'herbe +1", img: "images/ring_of_grass_resistance_1.png", qty: "x1", rate: "3%" }
 		]
 	},
     ];
